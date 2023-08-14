@@ -1,14 +1,19 @@
 const express = require("express");
-
+const dotenv = require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3000;
+const path = require("path");
+const bodyParser = require("body-parser");
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set("view-engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.post("/by", (req, res) => {});
 
 app.get("/", (req, res) => {
-    res.json({
-        message: "runnin ",
-    });
+    res.render("login.ejs");
 });
 
 app.listen(port, () => {
