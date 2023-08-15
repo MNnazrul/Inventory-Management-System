@@ -24,10 +24,15 @@ Orders.forEach(order => {
     const trContent = `
         <td>${order.productName}</td>
         <td>${order.productNumber}</td>
+        <td>${order.productNumber}</td>
+        <td>${order.productNumber}</td>
+        <td>${order.productNumber}</td>
         <td>${order.paymentStatus}</td>
         <td class="${order.status === 'Declined' ? 'danger' : order.status === 'Pending' ? 'warning' : 'primary'}">${order.status}</td>
-        <td class="primary">Details</td>
+        <td> <button><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 
+        rounded-full dark:bg-green-900 dark:text-green-300">Approve</span></button></td>
     `;
     tr.innerHTML = trContent;
     document.querySelector('table tbody').appendChild(tr);
+    // document.getElementById('tem_body').appendChild(tr);
 });

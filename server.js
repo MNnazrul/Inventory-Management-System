@@ -25,6 +25,14 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard.ejs");
 });
 
+app.get("/users", (req, res) => {
+    res.render("users.ejs");
+});
+
+app.get("/tem_dash", (req, res) => {
+    res.render("tem_dash.ejs");
+});
+
 app.listen(port, () => {
     console.log(`running at port ${port}`);
 });

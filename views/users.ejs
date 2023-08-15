@@ -17,7 +17,7 @@
     />
 
     <link rel="stylesheet" href="/css/dashboard.style.css" />
-    <title>Dashboard</title>
+    <title>Users</title>
   </head>
 
   <body>
@@ -35,11 +35,11 @@
         </div>
 
         <div class="sidebar">
-          <a href="#" class="active">
+          <a href="#">
             <span class="material-icons-sharp"> dashboard </span>
             <h3>Dashboard</h3>
           </a>
-          <a href="#">
+          <a href="#" class="active">
             <span class="material-icons-sharp"> person_outline </span>
             <h3>Users</h3>
           </a>
@@ -83,66 +83,46 @@
 
       <!-- Main Content -->
       <main>
-        <h1>Dashboard</h1>
-        <!-- Analyses -->
-        <div class="analyse">
-          <div class="sales">
-            <div class="status">
-              <div class="info">
-                <h3>Total Sales</h3>
-                <h1>$65,024</h1>
-              </div>
-              <div class="progresss">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="percentage">
-                  <p>+81%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="visits">
-            <div class="status">
-              <div class="info">
-                <h3>Site Visit</h3>
-                <h1>24,981</h1>
-              </div>
-              <div class="progresss">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="percentage">
-                  <p>-48%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="searches">
-            <div class="status">
-              <div class="info">
-                <h3>Searches</h3>
-                <h1>14,147</h1>
-              </div>
-              <div class="progresss">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="percentage">
-                  <p>+21%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- End of Analyses -->
+        <h1>Users</h1>
 
         <!-- Recent Orders Table -->
         <div class="recent-orders">
-          <h2>Recent Orders</h2>
+          <h2>Approve Users</h2>
           <table>
             <thead>
               <tr>
+                <th>Full Name</th>
+                <th>User Catagory</th>
+                <th>Shop Catagory</th>
+                <th>Email</th>
+                <th>Phone no.</th>
+                <th>Approve</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tr>
+            <% rows.forEach(row => { %>
+                <tr >
+                    <td><%= row.full_name %></td>
+                    <td><%= row.role %></td>
+                    <td><%= row.shop_catagory %></td>
+                    <td><%= row.email %></td>
+                    <td><%= row.phone %></td>
+                    <td> <button onclick="addRowToDatabase('<%= row.user_id %>')"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 
+                        rounded-full dark:bg-green-900 dark:text-green-300">Approve</span></button></td>
+                </tr>
+            <% }); %>
+            </tbody>
+          </table>
+          <a href="#">Show All</a>
+        </div>
+
+        <!-- Recent Orders Table -->
+        <div class="recent-orders">
+          <h2>All Users</h2>
+          <table>
+            <thead>
+              <tr style="margin-top: 200px">
                 <th>Course Name</th>
                 <th>Course Number</th>
                 <th>Course Number</th>
@@ -150,10 +130,11 @@
                 <th>Course Number</th>
                 <th>Payment</th>
                 <th>Status</th>
+                <th>Status</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="tem_body"></tbody>
           </table>
           <a href="#">Show All</a>
         </div>
