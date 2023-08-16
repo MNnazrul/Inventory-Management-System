@@ -89,6 +89,13 @@
           class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="w-full mb-1">
+            <div class="mb-4">
+              <h1
+                class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
+              >
+                All products
+              </h1>
+            </div>
             <div
               class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700"
             >
@@ -257,9 +264,9 @@
                     </tr>
                   </thead>
                   <tbody
-                    class="overflow-y-auto divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
+                    class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                   >
-                    <% for(let i=0;i<5;i++) { %>
+                    <% rows.forEach(row => { %>
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td class="w-4 p-4">
                         <div class="flex items-center">
@@ -280,7 +287,7 @@
                         <div
                           class="text-base font-semibold text-gray-900 dark:text-white"
                         >
-                          row.product_name
+                          <%= row.product_name %>
                         </div>
                         <div
                           class="text-sm font-normal text-gray-500 dark:text-gray-400"
@@ -291,17 +298,17 @@
                       <td
                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        row.product_code
+                        <%= row.product_code %>
                       </td>
                       <td
                         class="max-w-sm p-4 overflow-hidden text-base font-normal text-gray-500 truncate xl:max-w-xs dark:text-gray-400"
                       >
-                        row.amount
+                        <%= row.amount %>
                       </td>
                       <td
                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        row.price
+                        <%= row.price %>
                       </td>
                       <td
                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -328,7 +335,7 @@
 
                           <input
                             type="number"
-                            value="1"
+                            value=" <%= row.requested_amount %>"
                             min="1"
                             max="50"
                             class="w-16 p-2 text-center border rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-300 appearance-none quantity"
@@ -388,99 +395,6 @@
                     <% } %>
                   </tbody>
                 </table>
-
-                <!-- Billing card -->
-                <div class="mt-10 flex justify-start">
-                  <div class="w-full max-w-2xl mx-4">
-                    <div
-                      class="bg-white rounded-lg shadow border p-6 space-y-4"
-                    >
-                      <h1
-                        class="text-xl font-bold leading-tight text-gray-900 md:text-2xl"
-                      >
-                        Outer Card
-                        <div>
-                          <label
-                            for="email"
-                            class="block mb-2 text-sm font-medium text-gray-900"
-                          >
-                            Your email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            placeholder="name@company.com"
-                            required=""
-                          />
-                        </div>
-                        <div>
-                          <label
-                            for="email"
-                            class="block mb-2 text-sm font-medium text-gray-900"
-                          >
-                            Your email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            placeholder="name@company.com"
-                            required=""
-                          />
-                        </div>
-                      </h1>
-                      <p>Outer card content...</p>
-                    </div>
-                  </div>
-
-                  <div class="w-full max-w-2xl mx-4">
-                    <div
-                      class="bg-white rounded-lg shadow border p-6 space-y-4"
-                    >
-                      <h1
-                        class="text-xl font-bold leading-tight text-gray-900 md:text-2xl"
-                      >
-                        Outer Card
-                        <div>
-                          <label
-                            for="email"
-                            class="block mb-2 text-sm font-medium text-gray-900"
-                          >
-                            Your email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            placeholder="name@company.com"
-                            required=""
-                          />
-                        </div>
-                        <div>
-                          <label
-                            for="email"
-                            class="block mb-2 text-sm font-medium text-gray-900"
-                          >
-                            Your email
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            placeholder="name@company.com"
-                            required=""
-                          />
-                        </div>
-                      </h1>
-                      <p>Outer card content...</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

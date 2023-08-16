@@ -25,6 +25,14 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard.ejs");
 });
 
+app.get("/product", (req, res) => {
+    res.render("product.ejs");
+});
+
+app.get("/cart", (req, res) => {
+    res.render("cart.ejs");
+});
+
 app.get("/users", (req, res) => {
     res.render("users.ejs");
 });
