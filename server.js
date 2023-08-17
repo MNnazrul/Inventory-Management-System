@@ -33,6 +33,10 @@ app.get("/cart", (req, res) => {
     res.render("cart.ejs");
 });
 
+app.get("/invoice", (req, res) => {
+    res.render("invoice.ejs");
+});
+
 app.get("/users", (req, res) => {
     res.render("users.ejs");
 });
