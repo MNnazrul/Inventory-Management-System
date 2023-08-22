@@ -1,13 +1,23 @@
 const qr = require("../database/queries");
 
-const addProduct = async (req, res) => {
-    const rslt1 = await qr.selectProducts();
-    rslt1.pro_code = "v";
-    console.log(rslt1);
-    console.log(rslt1.length);
-    const rslt2 = await qr.selectAdmin();
-    console.log(rslt2);
-    res.send("test");
+const addNewProduct = async (req, res) => {
+    const randomNumber = parseInt(Math.floor(Math.random() * 10));
+    const dateStr = String(Date.now());
+    const pref = dateStr.substring(7);
+    const pCode = `${pref}${randomNumber}`;
+    const body = req.body;
+    const formattedDate = new Date().toISOString().split("T")[0];
+
+    body.entry_date = formattedDate;
+    body.product_code = pCode;
+
+    try {
+        qr.addedProduct(body);
+    } catch (err) {
+        return res.send("Error occured");
+    }
+
+    res.json("working");
 };
 
 const showP = async (req, res) => {
@@ -23,7 +33,7 @@ const pSearch = async (req, res) => {
 };
 
 const cntrl = {
-    addProduct,
+    addNewProduct,
     showP,
     pSearch,
 };

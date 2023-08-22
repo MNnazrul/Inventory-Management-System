@@ -25,6 +25,8 @@ router.get("/dashboard", (req, res) => {
 
 router.get("/product", cntrl.showP);
 
+router.post("/addNewProduct", cntrl.addNewProduct);
+
 router.post("/addEP", async (req, res) => {
     res.send(req.body);
 });
@@ -47,6 +49,6 @@ router.get("/tem_dash", (req, res) => {
 
 router.get("/search", cntrl.pSearch);
 
-router.post("/addP", cntrl.addProduct);
+router.post("/addP", async (req, res) => {});
 
 module.exports = router;

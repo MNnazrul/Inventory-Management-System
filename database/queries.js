@@ -74,6 +74,23 @@ const showSuppliers = async () => {
     return result[0];
 };
 
+const addedProduct = async (body) => {
+    await pool.query(
+        `INSERT INTO product_added (p_code, price, amount, entry_date, mf_date, exp_date, supplier)
+        VALUES (?,?,?,?,?,?,?)
+        `,
+        [
+            body.product_code,
+            body.price,
+            body.product_code,
+            body.entry_date,
+            body.mf_date,
+            body.exp_date,
+            body.supplier,
+        ]
+    );
+};
+
 const qr = {
     selectProducts,
     selectAdmin,
@@ -81,6 +98,7 @@ const qr = {
     showProducts,
     showSuppliers,
     searchQuery,
+    addedProduct,
 };
 
 module.exports = qr;
