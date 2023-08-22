@@ -747,19 +747,19 @@ main .recent-orders a {
   align-items: center;
 }
 
-.popup-edit-content {
+/* .popup-edit-content {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: var(--box-shadow);
   color: var(--color-success);
   text-align: center;
-}
+} */
 
 /* .popup-content .modal-title {
   color: var(--color-danger);
 } */
 
 .popup-edit-background.active {
-  display: flexbox;
+  display: flex;
 }

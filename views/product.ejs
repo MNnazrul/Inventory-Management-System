@@ -809,7 +809,10 @@ No, cancel
 
         <!-- Edit modal-->
 
-        <div class="popup-edit-background" id="popupeditBackground">
+        <div
+          class="h-screen w-screen fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 hidden"
+          id="popupeditBackground"
+        >
           <div class="relative w-full max-w-xl max-h-full">
             <!-- Modal content -->
             <div
@@ -1135,13 +1138,13 @@ No, cancel
 
       editButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          editPopupBackground.style.display = "block";
+          editPopupBackground.classList.add("active");
         });
       });
 
       // Close the edit modal when the close button is clicked
       closeEditPopupButton.addEventListener("click", () => {
-        editPopupBackground.style.display = "none";
+        editPopupBackground.classList.add("active");
       });
     </script>
 
