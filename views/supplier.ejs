@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Cart</title>
+    <title>Supplier</title>
 
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
@@ -304,9 +304,11 @@
                 <li>
                   <a
                     href=""
-                    class="bg-white flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                   >
-                    <span class="material-icons-sharp mr-3">
+                    <span
+                      class="text-gray-500 transition duration-75 group-hover:text-gray-900 material-icons-sharp mr-3"
+                    >
                       shopping_cart
                     </span>
                     <h3>Cart</h3></a
@@ -328,13 +330,9 @@
                 <li>
                   <a
                     href=""
-                    class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
+                    class="bg-white flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700"
                   >
-                    <span
-                      class="text-gray-500 transition duration-75 group-hover:text-gray-900 material-icons-sharp mr-3"
-                    >
-                      archive
-                    </span>
+                    <span class="material-icons-sharp mr-3"> archive </span>
                     <h3>Suppliers</h3></a
                   >
                 </li>
@@ -401,7 +399,7 @@
                 <h1
                   class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
                 >
-                  Cart
+                  Suppliers
                 </h1>
               </div>
               <div
@@ -440,6 +438,15 @@
                     </div>
                   </div>
                 </div>
+                <div>
+                  <button
+                    id="openModal1"
+                    class="flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                    type="button"
+                  >
+                    Add new supplier
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -459,39 +466,34 @@
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                         >
-                          Product Name
+                          Supplier Name
                         </th>
-                        <!-- <th
-                          scope="col"
-                          class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                        >
-                          Product Code
-                        </th> -->
                         <th
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                         >
-                          Available
+                          Address
+                        </th>
+                        <th
+                          scope="col"
+                          class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                        >
+                          Phone
+                        </th>
+                        <th
+                          scope="col"
+                          class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
+                        >
+                          Email
                         </th>
 
                         <th
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                         >
-                          Price
+                          Product Category
                         </th>
-                        <th
-                          scope="col"
-                          class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                        >
-                          Quantity
-                        </th>
-                        <th
-                          scope="col"
-                          class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
-                        >
-                          Subtotal
-                        </th>
+
                         <th
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
@@ -503,7 +505,7 @@
                     <tbody
                       class="bg-gray-100 divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                     >
-                      <% for(let i=0;i<5;i++){ %>
+                      <% for(let i=0;i<6;i++){ %>
                       <tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
                         <td class="w-4 p-4">
                           <div class="flex items-center">
@@ -533,80 +535,30 @@
                           </div>
                         </td>
                         <td
-                          class="flex p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          <img
-                            class="w-10 h-10 rounded-full"
-                            src="/images/product_demo.png"
-                            alt=""
-                          />
-                          <div class="mt-3">%= row.p_name %></div>
+                          %= row.s_name %>
+                        </td>
+                        <td
+                          class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          %= row.s_address %>
+                        </td>
+                        <td
+                          class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          %= row.s_phone %>
                         </td>
 
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          %= row.amount %>
+                          %= row.s_email %>
                         </td>
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          %= row.price %>
-                        </td>
-                        <td
-                          class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          <div class="flex items-center space-x-2">
-                            <button
-                              class="bg-gray-200 text-gray-600 hover:bg-red-500 p-2 rounded-full focus:outline-none decrease"
-                            >
-                              <svg
-                                class="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M20 12H4"
-                                ></path>
-                              </svg>
-                            </button>
-
-                            <input
-                              type="number"
-                              value="0"
-                              min="0"
-                              class="w-16 p-2 text-center border rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-300 appearance-none quantity"
-                            />
-
-                            <button
-                              class="bg-gray-200 text-gray-600 hover:bg-green-500 p-2 rounded-full focus:outline-none increase"
-                            >
-                              <svg
-                                class="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                ></path>
-                              </svg>
-                            </button>
-                          </div>
-                        </td>
-                        <td
-                          class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          $<span> 0 </span>
+                          %= row.s_category %>
                         </td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
                           <button
@@ -635,32 +587,6 @@
                         </td>
                       </tr>
                       <% } %>
-
-                      <tr class="bg-gray-300">
-                        <td class="p-4 space-x-2 whitespace-nowrap"></td>
-                        <td class="p-4 space-x-2 whitespace-nowrap">
-                          Total Price:
-                        </td>
-                        <td class="p-4 space-x-2 whitespace-nowrap"></td>
-                        <td class="p-4 space-x-2 whitespace-nowrap"></td>
-                        <td class="p-4 space-x-2 whitespace-nowrap"></td>
-                        <td class="p-4 space-x-2 whitespace-nowrap">
-                          $<span> 0.00</span>
-                        </td>
-                        <td class="p-4 space-x-2 whitespace-nowrap">
-                          <button
-                            id="openModal1"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                            type="button"
-                            data-drawer-target="drawer-create-product-default"
-                            data-drawer-show="drawer-create-product-default"
-                            aria-controls="drawer-create-product-default"
-                            data-drawer-placement="right"
-                          >
-                            Payment
-                          </button>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -725,7 +651,7 @@
               <h1
                 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
               >
-                Payment
+                Add New Supplier
               </h1>
               <form
                 class="text-left space-y-4 md:space-y-6"
@@ -738,7 +664,7 @@
                       for="product_name"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      Customer Name
+                      Supplier company
                     </label>
                     <input
                       type="text"
@@ -754,7 +680,7 @@
                       for="product_category"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      Payment Method
+                      Product Category
                     </label>
                     <select
                       name="product_category"
@@ -762,36 +688,180 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <option value="cash">Cash</option>
-                      <option value="card">Card</option>
+                      <option value="food">Groceries and Food</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="cosmetics">
+                        Beauty and Personal Care
+                      </option>
+                      <option value="books">Books and Stationery</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
                   <label
-                    for="product_description"
+                    for="s_address"
                     class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Payment Address
+                    Address
                   </label>
                   <input
                     type="text"
-                    name="product_description"
-                    id="product_description"
+                    name="s_address"
+                    id="s_address"
                     class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                     placeholder="no description yet"
                     required=""
                   />
                 </div>
+                <div>
+                  <label
+                    for="s_phone"
+                    class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Phone
+                  </label>
+                  <input
+                    type="text"
+                    name="s_phone"
+                    id="s_phone"
+                    class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                    placeholder="01555555555"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="s_email"
+                    class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="s_email"
+                    id="s_email"
+                    class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                    placeholder="example@gmail.com"
+                    required=""
+                  />
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <button
+                    type="submit"
+                    class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- <button id="closePopup">Close</button> -->
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="modal2"
+      class="modal hidden fixed w-full h-full top-0 left-0 flex justify-center items-center bg-black bg-opacity-50"
+    >
+      <div>
+        <div class="relative w-full max-w-xl max-h-full">
+          <!-- Modal content -->
+          <div
+            class="popup-content relative bg-white rounded-lg shadow dark:bg-gray-700"
+          >
+            <button
+              type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="authentication-modal"
+              id="closeModal2"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1
+                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+              >
+                Add Product
+              </h1>
+              <form
+                class="text-left space-y-4 md:space-y-6"
+                action=""
+                method=""
+              >
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label
-                      for="total"
+                      for="product_name"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      Total Amount
+                      Product Name
                     </label>
+                    <input
+                      type="text"
+                      name="product_name"
+                      id="product_name"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="Head Phone"
+                      required=""
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="supplier"
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Product Supplier
+                    </label>
+                    <select
+                      name="supplier"
+                      id="supplier"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required=""
+                    >
+                      <option value="food">Grond Food</option>
+                      <option value="electronics">Eleics</option>
+                      <option value="cosmetics">BeauCare</option>
+                      <option value="books">Boonery</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      for="price"
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Price
+                    </label>
+                    <input
+                      type="number"
+                      name="price"
+                      id="price"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="1"
+                      min="1"
+                      required=""
+                    />
                   </div>
 
                   <div>
@@ -799,27 +869,15 @@
                       for="amount"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span>0.00</span>
+                      Amount
                     </label>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      for="mf_date"
-                      class="mt-3 ml-2 block mb-2 text-sm font-medium text-gray-900"
-                    >
-                      Discount(%)
-                    </label>
-                  </div>
-                  <div>
                     <input
                       type="number"
-                      name="discount"
-                      id="discount"
-                      value="0.00"
+                      name="amount"
+                      id="amount"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="1"
+                      min="1"
                       required=""
                     />
                   </div>
@@ -828,20 +886,35 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label
-                      for="total"
+                      for="mf_date"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      Grand Total
+                      Manufactured Date
                     </label>
+                    <input
+                      type="date"
+                      name="mf_date"
+                      id="mf_date"
+                      placeholder="1/1/1111"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required=""
+                    />
                   </div>
-
                   <div>
                     <label
-                      for="amount"
+                      for="exp_date"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span>0.00</span>
+                      Expired Date
                     </label>
+                    <input
+                      type="date"
+                      name="exp_date"
+                      id="exp_date"
+                      placeholder="••••••••"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required=""
+                    />
                   </div>
                 </div>
 
@@ -850,7 +923,7 @@
                     type="submit"
                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   >
-                    Create Invoice
+                    Add Product
                   </button>
                 </div>
               </form>
@@ -873,25 +946,17 @@
       closeModal1Button.addEventListener("click", () => {
         modal1.classList.add("hidden");
       });
-    </script>
 
-    <script>
-      const decreaseButtons = document.querySelectorAll(".decrease");
-      const increaseButtons = document.querySelectorAll(".increase");
-      const quantityInputs = document.querySelectorAll(".quantity");
+      const openModal2Button = document.getElementById("openModal2");
+      const closeModal2Button = document.getElementById("closeModal2");
+      const modal2 = document.getElementById("modal2");
 
-      decreaseButtons.forEach((button, index) => {
-        button.addEventListener("click", () => {
-          if (quantityInputs[index].value > 0) {
-            quantityInputs[index].value--;
-          }
-        });
+      openModal2Button.addEventListener("click", () => {
+        modal2.classList.remove("hidden");
       });
 
-      increaseButtons.forEach((button, index) => {
-        button.addEventListener("click", () => {
-          quantityInputs[index].value++;
-        });
+      closeModal2Button.addEventListener("click", () => {
+        modal2.classList.add("hidden");
       });
     </script>
 

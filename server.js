@@ -21,6 +21,14 @@ app.get("/signup", (req, res) => {
     res.render("signup.ejs");
 });
 
+app.get("/orders", (req, res) => {
+    res.render("orders.ejs");
+});
+
+app.get("/supplier", (req, res) => {
+    res.render("supplier.ejs");
+});
+
 app.get("/dashboard", (req, res) => {
     res.render("dashboard.ejs");
 });
