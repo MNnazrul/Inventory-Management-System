@@ -25,6 +25,8 @@ const showProducts = async (body) => {
         SELECT
             p.p_name,
             p.p_code,
+            p.p_category,
+            p.p_des,
             MIN(pa.price) AS min_price,
             MAX(pa.price) AS max_price,
             SUM(pa.amount) AS total_amount
@@ -41,6 +43,32 @@ const showProducts = async (body) => {
     return result[0];
 };
 
+const searchQuery = async (query) => {
+    const result = await pool.query(
+        `
+        SELECT
+            p.p_name,
+            p.p_code,
+            p.p_category,
+            p.p_des,
+            MIN(pa.price) AS min_price,
+            MAX(pa.price) AS max_price,
+            SUM(pa.amount) AS total_amount
+        FROM
+            products p
+        JOIN
+            product_added pa ON p.p_code = pa.p_code
+        WHERE
+            p.p_name LIKE '%${query}%'
+            OR p.p_des LIKE '%${query}%'
+            OR p.p_category LIKE '%${query}%'
+        GROUP BY
+            p.p_name, p.p_code;
+        `
+    );
+    return result[0];
+};
+
 const showSuppliers = async () => {
     const result = await pool.query(`select * from suppliers`);
     return result[0];
@@ -52,6 +80,7 @@ const qr = {
     insertIntoProduct,
     showProducts,
     showSuppliers,
+    searchQuery,
 };
 
 module.exports = qr;

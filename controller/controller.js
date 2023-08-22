@@ -13,12 +13,19 @@ const addProduct = async (req, res) => {
 const showP = async (req, res) => {
     const items = await qr.showProducts();
     const suppliers = await qr.showSuppliers();
-    return res.render("new_dashboard.ejs", { items, suppliers });
+    return res.render("new1_dashboard.ejs", { items, suppliers });
+};
+
+const pSearch = async (req, res) => {
+    let query = req.query.q;
+    const results = await qr.searchQuery(query);
+    res.send(results);
 };
 
 const cntrl = {
     addProduct,
     showP,
+    pSearch,
 };
 
 module.exports = cntrl;

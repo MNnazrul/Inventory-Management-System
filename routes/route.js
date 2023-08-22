@@ -1,11 +1,14 @@
 const express = require("express");
 const cntrl = require("../controller/controller");
 const router = express.Router();
+const qr = require("../database/queries");
 
 router.post("/by", (req, res) => {});
 
 router.get("/dummy", async (req, res) => {
-    res.send(`double check`);
+    const query = "product ";
+    const result = await qr.searchQuery(query);
+    res.send(result);
 });
 
 router.get("/", (req, res) => {
@@ -41,6 +44,8 @@ router.get("/users", (req, res) => {
 router.get("/tem_dash", (req, res) => {
     res.render("tem_dash.ejs");
 });
+
+router.get("/search", cntrl.pSearch);
 
 router.post("/addP", cntrl.addProduct);
 
