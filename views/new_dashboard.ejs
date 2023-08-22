@@ -666,12 +666,12 @@
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          <%= row.amount %>
+                          <%= row.total_amount %>
                         </td>
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          <%= row.min_price %>-<%= row.max_price%>
+                          $<%= row.min_price %> - $<%= row.max_price%>
                         </td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
                           <button
@@ -1005,8 +1005,8 @@
               </h1>
               <form
                 class="text-left space-y-4 md:space-y-6"
-                action=""
-                method=""
+                action="/addEP"
+                method="post"
               >
                 <div class="grid grid-cols-2 gap-4">
                   <div>
@@ -1016,14 +1016,16 @@
                     >
                       Product Name
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="product_name"
                       id="product_name"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                      placeholder="Head Phone"
                       required=""
-                    />
+                    >
+                    <% items.forEach( row => { %>
+                      <option value="<%=row.p_name%>"><%=row.p_name%></option>
+                      <%})%>
+                    </select>
                   </div>
                   <div>
                     <label
@@ -1038,10 +1040,9 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <option value="food">Grond Food</option>
-                      <option value="electronics">Eleics</option>
-                      <option value="cosmetics">BeauCare</option>
-                      <option value="books">Boonery</option>
+                    <% suppliers.forEach( row => { %>
+                        <option value="<%=row.s_name%>"><%=row.s_name%></option>
+                    <%})%>
                     </select>
                   </div>
                 </div>
@@ -1119,7 +1120,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-center justify-between">
+                <div class="flex mt-8 items-center justify-between">
                   <button
                     type="submit"
                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

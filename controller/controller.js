@@ -12,7 +12,8 @@ const addProduct = async (req, res) => {
 
 const showP = async (req, res) => {
     const items = await qr.showProducts();
-    return res.render("new_dashboard.ejs", { items });
+    const suppliers = await qr.showSuppliers();
+    return res.render("new_dashboard.ejs", { items, suppliers });
 };
 
 const cntrl = {

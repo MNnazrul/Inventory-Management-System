@@ -9,7 +9,7 @@ router.get("/dummy", async (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    res.render("new_dashboard.ejs");
+    res.render("login.ejs");
 });
 
 router.get("/signup", (req, res) => {
@@ -21,6 +21,10 @@ router.get("/dashboard", (req, res) => {
 });
 
 router.get("/product", cntrl.showP);
+
+router.post("/addEP", async (req, res) => {
+    res.send(req.body);
+});
 
 router.get("/cart", (req, res) => {
     res.render("cart.ejs");
