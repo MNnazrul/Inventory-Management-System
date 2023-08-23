@@ -127,6 +127,27 @@ const showCustomers = async () => {
     return result[0];
 };
 
+const addIntoOrder = async (body) => {
+    await pool.query(
+        `insert into orders (o_code, p_name, p_quantity, p_price) values(?, ?, ?, ?)`,
+        [body.o_code, body.p_name, body.p_quantity, body.p_price]
+    );
+};
+
+const addIntoOrderPlaced = async (code, body, date_time, t_amount) => {
+    await pool.query(
+        `insert into order_placed (o_code, customer, date_time, total_amount, discount) values(?, ?, ?, ?, ?)`,
+        [code, body.customer, date_time, t_amount, body.discount]
+    );
+};
+
+const addIntoOrderPayment = async (code, date_time, paid) => {
+    await pool.query(
+        `insert into order_payment (o_code, payment_date, paid) values(?, ?, ?)`,
+        [code, date_time, paid]
+    );
+};
+
 const qr = {
     selectProducts,
     selectAdmin,
@@ -138,6 +159,9 @@ const qr = {
     changeState,
     cartProduct,
     showCustomers,
+    addIntoOrder,
+    addIntoOrderPlaced,
+    addIntoOrderPayment,
 };
 
 module.exports = qr;

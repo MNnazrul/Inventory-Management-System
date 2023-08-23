@@ -389,7 +389,7 @@
                                                                 </svg>
                                                             </button>
 
-                                                            <input type="number" name="<%=row.p_name%>" value="1"
+                                                            <input type="number" name="cart_quantity" value="1"
                                                                 min="1" max="<%=row.total_amount%>"
                                                                 class="w-16 p-2 text-center border rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-300 appearance-none quantity" />
 
@@ -530,7 +530,7 @@
                                                                 <div>
                                                                     <label
                                                                         class="ml-2 block mb-2 text-sm font-medium text-gray-900">
-                                                                        Total Amount
+                                                                        Grand Total
                                                                     </label>
                                                                 </div>
 
@@ -545,14 +545,14 @@
 
                                                             <div class="grid grid-cols-2 gap-4">
                                                                 <div>
-                                                                    <label for="mf_date"
+                                                                    <label
                                                                         class="mt-3 ml-2 block mb-2 text-sm font-medium text-gray-900">
                                                                         Discount(%)
                                                                     </label>
                                                                 </div>
                                                                 <div>
-                                                                    <input type="number" name="discount" id="discount"
-                                                                        value="0.00"
+                                                                    <input type="number" step="0.01" name="discount"
+                                                                        id="discount" value="0.00"
                                                                         class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                                                         required="" onchange="calculateTotal()" />
                                                                 </div>
@@ -562,7 +562,7 @@
                                                                 <div>
                                                                     <label
                                                                         class="ml-2 block mb-2 text-sm font-medium text-gray-900">
-                                                                        Grand Total
+                                                                        Total Amount
                                                                     </label>
                                                                 </div>
 
@@ -582,8 +582,8 @@
                                                                     </label>
                                                                 </div>
                                                                 <div>
-                                                                    <input type="number" name="paid" id="paid"
-                                                                        value="0.00"
+                                                                    <input type="number" step="0.01" name="paid"
+                                                                        id="paid" value="0.00"
                                                                         class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                                                                         required="" onchange="calculateTotaldue()" />
                                                                 </div>
@@ -610,6 +610,9 @@
                                                                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                                     Create Invoice
                                                                 </button>
+                                                            </div>
+                                                            <div>
+                                                                <input type="hidden" name="details" value="<%=JSON.stringify(rows)%>">
                                                             </div>
                                                         </div>
 
@@ -749,7 +752,7 @@
         updateTotals();
     </script>
 
-    <script>
+    <!-- <script>
         function calculateTotal() {
             const totalAmount = parseFloat(
                 document.getElementById("cart_total3").textContent
@@ -765,9 +768,9 @@
             grandTotalElement.textContent = " " + grandTotal.toFixed(2);
 
         }
-    </script>
+    </script> -->
 
-    <script>
+    <!-- <script>
         function calculateTotaldue() {
             const totalAmount1 = parseFloat(
                 document.getElementById("grandTotal").textContent
@@ -780,6 +783,47 @@
             const grandTotal1 = totalAmount1 - discountPercentage1;
 
             grandTotalElement.textContent = " " + grandTotal1.toFixed(2);
+        }
+    </script> -->
+
+    <script>
+        // Get the necessary DOM elements
+        const cartTotalElement = document.getElementById("cart_total3");
+        const discountElement = document.getElementById("discount");
+        const grandTotalElement = document.getElementById("grandTotal");
+        const paidElement = document.getElementById("paid");
+        const dueElement = document.getElementById("due");
+
+        // Add event listeners to the "Discount" and "Paid" input fields
+        discountElement.addEventListener("input", calculateGrandTotal);
+        paidElement.addEventListener("input", calculateDue);
+
+        // Function to calculate and update grand total
+        function calculateGrandTotal() {
+            const cartTotal = parseFloat(cartTotalElement.textContent);
+            const discount = parseFloat(discountElement.value);
+
+            const grandTotal = cartTotal - cartTotal * (discount / 100);
+
+            grandTotalElement.textContent = grandTotal.toFixed(2);
+
+            // Recalculate due when discount changes
+            calculateDue();
+        }
+
+        // Function to calculate and update due
+        function calculateDue() {
+            const grandTotal = parseFloat(grandTotalElement.textContent);
+            const paid = parseFloat(paidElement.value);
+
+            const due = grandTotal - paid;
+            dueElement.textContent = due.toFixed(2);
+
+            // Ensure due doesn't go below zero
+            if (due < 0) {
+                dueElement.textContent = "0.00";
+                paidElement.value = grandTotal.toFixed(2);
+            }
         }
     </script>
 

@@ -47,9 +47,7 @@ router.get("/tem_dash", (req, res) => {
     res.render("tem_dash.ejs");
 });
 
-router.post("/placeOrder", async (req, res) => {
-    res.send(req.body);
-});
+router.post("/placeOrder", cntrl.placeOrder);
 
 router.get("/search", cntrl.pSearch);
 

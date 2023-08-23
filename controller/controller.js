@@ -1,4 +1,5 @@
 const qr = require("../database/queries");
+const ser = require("../service/service");
 
 const addNewProduct = async (req, res) => {
     const randomNumber = parseInt(Math.floor(Math.random() * 10));
@@ -58,6 +59,26 @@ const changeStateFromCart = async (req, res) => {
     res.redirect("/cart");
 };
 
+const placeOrder = async (req, res) => {
+    const o_code = await ser.codeGenerator();
+
+    const receivedSerializedData = req.body.details;
+    const cp = (req.body.details = JSON.parse(receivedSerializedData));
+    let arr = req.body.cart_quantity;
+    await ser.insertIntoOrders(cp, arr, o_code);
+    let total_price = await ser.find_total_price(req.body, cp, arr);
+
+    let curDate = await ser.dateTime();
+
+    await qr.addIntoOrderPlaced(o_code, req.body, curDate, total_price);
+    await qr.addIntoOrderPayment(o_code, curDate, req.body.paid);
+
+    console.log(curDate);
+
+    return res.redirect("/invoice");
+    res.send(req.body);
+};
+
 const cntrl = {
     addNewProduct,
     showP,
@@ -65,6 +86,7 @@ const cntrl = {
     changeState,
     showCart,
     changeStateFromCart,
+    placeOrder,
 };
 
 module.exports = cntrl;
