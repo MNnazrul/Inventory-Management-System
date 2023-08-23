@@ -31,6 +31,10 @@ router.post("/addEP", async (req, res) => {
     res.send(req.body);
 });
 
+router.get("/changeProductsState", (req, res) => {
+    res.send("working");
+});
+
 router.get("/cart", (req, res) => {
     res.render("cart.ejs");
 });

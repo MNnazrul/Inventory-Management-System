@@ -506,7 +506,7 @@
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                         >
-                          Unit Price($)
+                          Unit Price
                         </th>
 
                         <th
@@ -1048,9 +1048,13 @@
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                        ${result.min_price} - ${result.max_price}
+                        $ ${result.p_price}
                         </td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
+                          
+                          <a 
+                          href="/changeProductsState?data=${ encodeURIComponent(JSON.stringify(result))}" >
+                          
                           <button
                             type="button"
                             id="updateProductButton"
@@ -1077,6 +1081,8 @@
                             </svg>
                             cart
                           </button>
+                          
+                        </a>
                           <button
                             type="button"
                             id="deleteProductButton"

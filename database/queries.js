@@ -22,23 +22,20 @@ const insertIntoProduct = async (body) => {
 const showProducts = async (body) => {
     const result = await pool.query(
         `
-        SELECT
-            p.p_name,
-            p.p_code,
-            p.p_category,
-            p.p_des,
-            MIN(pa.price) AS min_price,
-            MAX(pa.price) AS max_price,
-            SUM(pa.amount) AS total_amount
-        FROM
-            products p
-        JOIN
-            product_added pa ON p.p_code = pa.p_code
-        GROUP BY
-            p.p_name, p.p_code;
-
-    
-    `
+            SELECT
+                p.p_name,
+                p.p_code,
+                p.p_category,
+                p.p_des,
+                p.p_price,
+                SUM(pa.amount) AS total_amount
+            FROM
+                products p
+            JOIN
+                product_added pa ON p.p_code = pa.p_code
+            GROUP BY
+                p.p_name, p.p_code;
+        `
     );
     return result[0];
 };
@@ -51,8 +48,7 @@ const searchQuery = async (query) => {
             p.p_code,
             p.p_category,
             p.p_des,
-            MIN(pa.price) AS min_price,
-            MAX(pa.price) AS max_price,
+            p.p_price,
             SUM(pa.amount) AS total_amount
         FROM
             products p
