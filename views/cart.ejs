@@ -504,7 +504,9 @@
                       class="bg-gray-100 divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                     >
                       <% for(let i=0;i<5;i++){ %>
-                      <tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <tr
+                        class="hover:bg-gray-200 dark:hover:bg-gray-700 cart-row"
+                      >
                         <td class="w-4 p-4">
                           <div class="flex items-center">
                             <svg
@@ -551,7 +553,7 @@
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          %= row.price %>
+                          %= row.price %> $<span class="cart-price"> 10 </span>
                         </td>
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -606,7 +608,7 @@
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          $<span> 0 </span>
+                          <span class="cart-subtotal"> 0.00 </span>
                         </td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
                           <button
@@ -645,7 +647,7 @@
                         <td class="p-4 space-x-2 whitespace-nowrap"></td>
                         <td class="p-4 space-x-2 whitespace-nowrap"></td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
-                          $<span> 0.00</span>
+                          <div><span class="cart-total"> 0.00</span></div>
                         </td>
                         <td class="p-4 space-x-2 whitespace-nowrap">
                           <button
@@ -799,7 +801,7 @@
                       for="amount"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span>0.00</span>
+                      <span class="cart-total2">0.00</span>
                     </label>
                   </div>
                 </div>
@@ -875,7 +877,7 @@
       });
     </script>
 
-    <script>
+    <!-- <script>
       const decreaseButtons = document.querySelectorAll(".decrease");
       const increaseButtons = document.querySelectorAll(".increase");
       const quantityInputs = document.querySelectorAll(".quantity");
@@ -893,6 +895,70 @@
           quantityInputs[index].value++;
         });
       });
+    </script> -->
+
+    <script>
+      // Function to update subtotal and total
+
+      function updateTotals() {
+        const rows = document.querySelectorAll(".cart-row");
+
+        let total = 0;
+
+        rows.forEach((row) => {
+          const price = parseFloat(
+            row.querySelector(".cart-price").textContent
+          );
+          const quantity = parseInt(row.querySelector(".quantity").value);
+          const subtotal = price * quantity;
+
+          row.querySelector(".cart-subtotal").textContent =
+            "$ " + subtotal.toFixed(2);
+          total += subtotal;
+        });
+
+        document.querySelector(".cart-total").textContent =
+          "$ " + total.toFixed(2);
+        document.querySelector(".cart-total2").textContent =
+          "$ " + total.toFixed(2);
+      }
+
+      // Attach event listeners to increase and decrease buttons
+      const increaseButtons = document.querySelectorAll(".increase");
+      const decreaseButtons = document.querySelectorAll(".decrease");
+
+      increaseButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const input = button.parentElement.querySelector(".quantity");
+          input.value = parseInt(input.value) + 1;
+          updateTotals();
+        });
+      });
+
+      decreaseButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const input = button.parentElement.querySelector(".quantity");
+          if (parseInt(input.value) > 0) {
+            input.value = parseInt(input.value) - 1;
+            updateTotals();
+          }
+        });
+      });
+
+      // Attach event listener to input fields
+      const quantityInputs = document.querySelectorAll(".quantity");
+
+      quantityInputs.forEach((input) => {
+        input.addEventListener("input", () => {
+          if (isNaN(input.value) || parseInt(input.value) < 0) {
+            input.value = 0;
+          }
+          updateTotals();
+        });
+      });
+
+      // Initial update of totals
+      updateTotals();
     </script>
 
     <!-- <script async defer src="https://buttons.github.io/buttons.js "></script> -->
