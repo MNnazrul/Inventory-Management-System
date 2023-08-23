@@ -47,7 +47,13 @@ router.get("/tem_dash", (req, res) => {
     res.render("tem_dash.ejs");
 });
 
+router.post("/placeOrder", async (req, res) => {
+    res.send(req.body);
+});
+
 router.get("/search", cntrl.pSearch);
+
+router.get("/changeStateFromCart", cntrl.changeStateFromCart);
 
 router.post("/addP", async (req, res) => {});
 

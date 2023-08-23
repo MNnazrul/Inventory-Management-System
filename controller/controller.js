@@ -31,7 +31,10 @@ const showP = async (req, res) => {
 const changeState = async (req, res) => {
     const receivedSerializedData = req.query.data;
     const body = JSON.parse(receivedSerializedData);
-    await qr.changeState(body.p_name, !body.state);
+    console.log(body);
+    let cp;
+    if (parseInt(body.p_state) == 1) cp = await qr.changeState(body.p_name, 0);
+    else cp = await qr.changeState(body.p_name, 1);
     return res.redirect("/product");
 };
 
@@ -42,9 +45,17 @@ const pSearch = async (req, res) => {
 };
 
 const showCart = async (req, res) => {
-    const rows = items.filter((item) => item.p_state == 1);
-    // return res.send(items);
-    res.render("cart.ejs", { rows });
+    const rows = await qr.cartProduct();
+    const customers = await qr.showCustomers();
+    res.render("tem_cart.ejs", { rows, customers });
+};
+
+const changeStateFromCart = async (req, res) => {
+    const receivedSerializedData = req.query.data;
+    const body = JSON.parse(receivedSerializedData);
+    if (parseInt(body.p_state) == 1) cp = await qr.changeState(body.p_name, 0);
+    else cp = await qr.changeState(body.p_name, 1);
+    res.redirect("/cart");
 };
 
 const cntrl = {
@@ -53,6 +64,7 @@ const cntrl = {
     pSearch,
     changeState,
     showCart,
+    changeStateFromCart,
 };
 
 module.exports = cntrl;

@@ -90,10 +90,41 @@ const addedProduct = async (body) => {
 };
 
 const changeState = async (p_name, state) => {
-    await pool.query(`update products set p_state = ? where p_name = ?`, [
-        state,
-        p_name,
-    ]);
+    const result = await pool.query(
+        `update products set p_state = ? where p_name = ?`,
+        [state, p_name]
+    );
+    return result;
+};
+
+const cartProduct = async () => {
+    const result = await pool.query(
+        `
+        SELECT
+            p.p_name,
+            p.p_code,
+            p.p_category,
+            p.p_des,
+            p.p_price,
+            p.p_state,
+            SUM(pa.amount) AS total_amount
+        FROM
+            products p
+        JOIN
+            product_added pa ON p.p_code = pa.p_code
+        WHERE
+            p.p_state = 1
+        GROUP BY
+            p.p_name, p.p_code;
+
+        `
+    );
+    return result[0];
+};
+
+const showCustomers = async () => {
+    const result = await pool.query(`select * from customers`);
+    return result[0];
 };
 
 const qr = {
@@ -105,6 +136,8 @@ const qr = {
     searchQuery,
     addedProduct,
     changeState,
+    cartProduct,
+    showCustomers,
 };
 
 module.exports = qr;
