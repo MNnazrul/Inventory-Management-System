@@ -475,7 +475,7 @@
                     <thead class="bg-gray-300 dark:bg-gray-700">
                       <tr>
                         <th scope="col" class="p-4">
-                          <div class="flex items-center ml-3">#</div>
+                          <div class="flex items-center">#</div>
                         </th>
                         <th
                           scope="col"
@@ -506,7 +506,7 @@
                           scope="col"
                           class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400"
                         >
-                          Unit Price
+                          Unit Price($)
                         </th>
 
                         <th
@@ -518,11 +518,9 @@
                       </tr>
                     </thead>
                     <tbody
-                      id = "results"
+                      id="results"
                       class="bg-gray-100 divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
-                    >
-                      
-                    </tbody>
+                    ></tbody>
                   </table>
                 </div>
               </div>
@@ -590,8 +588,8 @@
               </h1>
               <form
                 class="text-left space-y-4 md:space-y-6"
-                action=""
-                method=""
+                action="/addNewProduct"
+                method="post"
               >
                 <div class="grid grid-cols-2 gap-4">
                   <div>
@@ -658,7 +656,7 @@
                       Price
                     </label>
                     <input
-                      type="number"
+                      type="float"
                       name="price"
                       id="price"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
@@ -801,8 +799,8 @@
               </h1>
               <form
                 class="text-left space-y-4 md:space-y-6"
-                action=""
-                method=""
+                action="/addEP"
+                method="post"
               >
                 <div class="grid grid-cols-2 gap-4">
                   <div>
@@ -812,14 +810,16 @@
                     >
                       Product Name
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="product_name"
                       id="product_name"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                      placeholder="Head Phone"
                       required=""
-                    />
+                    >
+                      <% items.forEach( row => { %>
+                      <option value="<%=row.p_name%>"><%=row.p_name%></option>
+                      <%})%>
+                    </select>
                   </div>
                   <div>
                     <label
@@ -834,10 +834,9 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <option value="food">Grond Food</option>
-                      <option value="electronics">Eleics</option>
-                      <option value="cosmetics">BeauCare</option>
-                      <option value="books">Boonery</option>
+                      <% suppliers.forEach( row => { %>
+                      <option value="<%=row.s_name%>"><%=row.s_name%></option>
+                      <%})%>
                     </select>
                   </div>
                 </div>
@@ -915,7 +914,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-center justify-between">
+                <div class="flex mt-8 items-center justify-between">
                   <button
                     type="submit"
                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
@@ -956,10 +955,8 @@
         modal2.classList.add("hidden");
       });
 
-
-
-            // Get references to elements
-            const searchInput = document.querySelector("#search");
+      // Get references to elements
+      const searchInput = document.querySelector("#search");
       const resultsBody = document.querySelector("#results");
 
       // Initial load of data
@@ -1128,11 +1125,6 @@
         const query = searchInput.value;
         load_data(query);
       });
-
-
-
-
-
     </script>
 
     <!-- <script async defer src="https://buttons.github.io/buttons.js "></script> -->
