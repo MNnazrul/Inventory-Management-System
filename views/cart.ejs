@@ -801,7 +801,7 @@
                       for="amount"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      <span class="cart-total2">0.00</span>
+                      <span class="cart-total2" id="cart-total3">0.00</span>
                     </label>
                   </div>
                 </div>
@@ -823,6 +823,7 @@
                       value="0.00"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
+                      onchange="calculateTotal()"
                     />
                   </div>
                 </div>
@@ -830,7 +831,6 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label
-                      for="total"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
                       Grand Total
@@ -839,10 +839,9 @@
 
                   <div>
                     <label
-                      for="amount"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span>0.00</span>
+                      $<span id="grandTotal"> 0.00 </span>
                     </label>
                   </div>
                 </div>
@@ -858,10 +857,26 @@
               </form>
             </div>
           </div>
-          <!-- <button id="closePopup">Close</button> -->
         </div>
       </div>
     </div>
+
+    <script>
+      function calculateTotal() {
+        const amountInput = document.getElementById("amount");
+        const discountInput = document.getElementById("discount");
+        const grandTotalOutput = document.getElementById("grandTotal");
+
+        const amount = parseFloat(amountInput.textContent);
+        const discount = parseFloat(discountInput.value);
+        const discountedAmount = amount - amount * (discount / 100);
+
+        grandTotalOutput.textContent = `$${discountedAmount.toFixed(2)}`;
+      }
+
+      // Initial calculation on page load
+      calculateTotal();
+    </script>
 
     <script>
       const openModal1Button = document.getElementById("openModal1");
