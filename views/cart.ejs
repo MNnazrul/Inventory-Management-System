@@ -503,7 +503,7 @@
                     <tbody
                       class="bg-gray-100 divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
                     >
-                      <% for(let i=0;i<5;i++){ %>
+                      <% rows.forEach(row => { %>
                       <tr
                         class="hover:bg-gray-200 dark:hover:bg-gray-700 cart-row"
                       >
@@ -542,18 +542,18 @@
                             src="/images/product_demo.png"
                             alt=""
                           />
-                          <div class="mt-3">%= row.p_name %></div>
+                          <div class="mt-3"><%= row.p_name %></div>
                         </td>
 
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          %= row.amount %>
+                          <%= row.total_amount %>
                         </td>
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          %= row.price %> $<span class="cart-price"> 10 </span>
+                          <%= row.p_price %> $<span class="cart-price"> 10 </span>
                         </td>
                         <td
                           class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -636,7 +636,7 @@
                           </button>
                         </td>
                       </tr>
-                      <% } %>
+                      <% }) %>
 
                       <tr class="bg-gray-300">
                         <td class="p-4 space-x-2 whitespace-nowrap"></td>

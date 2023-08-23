@@ -33,9 +33,7 @@ router.post("/addEP", async (req, res) => {
 
 router.get("/changeProductsState", cntrl.changeState);
 
-router.get("/cart", (req, res) => {
-    res.render("cart.ejs");
-});
+router.get("/cart", cntrl.showCart);
 
 router.get("/invoice", (req, res) => {
     res.render("invoice.ejs");

@@ -20,8 +20,10 @@ const addNewProduct = async (req, res) => {
     res.json("working");
 };
 
+let items;
+
 const showP = async (req, res) => {
-    const items = await qr.showProducts();
+    items = await qr.showProducts();
     const suppliers = await qr.showSuppliers();
     return res.render("new1_dashboard.ejs", { items, suppliers });
 };
@@ -39,13 +41,18 @@ const pSearch = async (req, res) => {
     res.send(results);
 };
 
-const showCart = async (req, res) => {};
+const showCart = async (req, res) => {
+    const rows = items.filter((item) => item.p_state == 1);
+    // return res.send(items);
+    res.render("cart.ejs", { rows });
+};
 
 const cntrl = {
     addNewProduct,
     showP,
     pSearch,
     changeState,
+    showCart,
 };
 
 module.exports = cntrl;
