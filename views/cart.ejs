@@ -844,6 +844,46 @@
                   </div>
                 </div>
 
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      for="mf_date"
+                      class="mt-3 ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Paid
+                    </label>
+                  </div>
+                  <div>
+                    <input
+                      type="number"
+                      name="paid"
+                      id="paid"
+                      value="0.00"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required=""
+                      onchange="calculateTotaldue()"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Due
+                    </label>
+                  </div>
+
+                  <div>
+                    <label
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      $<span id="due"> 0.00 </span>
+                    </label>
+                  </div>
+                </div>
+
                 <div class="flex items-center justify-between">
                   <button
                     type="submit"
@@ -971,6 +1011,22 @@
         const grandTotal = totalAmount - discountAmount;
 
         grandTotalElement.textContent = " " + grandTotal.toFixed(2);
+      }
+    </script>
+
+    <script>
+      function calculateTotaldue() {
+        const totalAmount1 = parseFloat(
+          document.getElementById("grandTotal").textContent
+        );
+        const discountPercentage1 = parseFloat(
+          document.getElementById("paid").value
+        );
+        const grandTotalElement = document.getElementById("due");
+
+        const grandTotal1 = totalAmount1 - discountPercentage1;
+
+        grandTotalElement.textContent = " " + grandTotal1.toFixed(2);
       }
     </script>
 
