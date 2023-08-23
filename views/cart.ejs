@@ -789,7 +789,6 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label
-                      for="total"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
                       Total Amount
@@ -798,10 +797,9 @@
 
                   <div>
                     <label
-                      for="amount"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      <span class="cart-total2" id="cart-total3">0.00</span>
+                      $<span class="cart-total2" id="cart_total3"> 0.00 </span>
                     </label>
                   </div>
                 </div>
@@ -862,23 +860,6 @@
     </div>
 
     <script>
-      function calculateTotal() {
-        const amountInput = document.getElementById("amount");
-        const discountInput = document.getElementById("discount");
-        const grandTotalOutput = document.getElementById("grandTotal");
-
-        const amount = parseFloat(amountInput.textContent);
-        const discount = parseFloat(discountInput.value);
-        const discountedAmount = amount - amount * (discount / 100);
-
-        grandTotalOutput.textContent = `$${discountedAmount.toFixed(2)}`;
-      }
-
-      // Initial calculation on page load
-      calculateTotal();
-    </script>
-
-    <script>
       const openModal1Button = document.getElementById("openModal1");
       const closeModal1Button = document.getElementById("closeModal1");
       const modal1 = document.getElementById("modal1");
@@ -935,7 +916,7 @@
         document.querySelector(".cart-total").textContent =
           "$ " + total.toFixed(2);
         document.querySelector(".cart-total2").textContent =
-          "$ " + total.toFixed(2);
+          " " + total.toFixed(2);
       }
 
       // Attach event listeners to increase and decrease buttons
@@ -974,6 +955,23 @@
 
       // Initial update of totals
       updateTotals();
+    </script>
+
+    <script>
+      function calculateTotal() {
+        const totalAmount = parseFloat(
+          document.getElementById("cart_total3").textContent
+        );
+        const discountPercentage = parseFloat(
+          document.getElementById("discount").value
+        );
+        const grandTotalElement = document.getElementById("grandTotal");
+
+        const discountAmount = (totalAmount * discountPercentage) / 100;
+        const grandTotal = totalAmount - discountAmount;
+
+        grandTotalElement.textContent = " " + grandTotal.toFixed(2);
+      }
     </script>
 
     <!-- <script async defer src="https://buttons.github.io/buttons.js "></script> -->
