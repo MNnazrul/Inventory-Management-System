@@ -25,6 +25,10 @@ app.get("/orders", (req, res) => {
     res.render("orders.ejs");
 });
 
+app.get("/due_payment", (req, res) => {
+    res.render("due_payment.ejs");
+});
+
 app.get("/supplier", (req, res) => {
     res.render("supplier.ejs");
 });
