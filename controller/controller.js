@@ -26,16 +26,26 @@ const showP = async (req, res) => {
     return res.render("new1_dashboard.ejs", { items, suppliers });
 };
 
+const changeState = async (req, res) => {
+    const receivedSerializedData = req.query.data;
+    const body = JSON.parse(receivedSerializedData);
+    await qr.changeState(body.p_name, !body.state);
+    return res.redirect("/product");
+};
+
 const pSearch = async (req, res) => {
     let query = req.query.q;
     const results = await qr.searchQuery(query);
     res.send(results);
 };
 
+const showCart = async (req, res) => {};
+
 const cntrl = {
     addNewProduct,
     showP,
     pSearch,
+    changeState,
 };
 
 module.exports = cntrl;

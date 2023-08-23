@@ -6,7 +6,7 @@ const qr = require("../database/queries");
 router.post("/by", (req, res) => {});
 
 router.get("/dummy", async (req, res) => {
-    const query = "product ";
+    const query = "product";
     const result = await qr.searchQuery(query);
     res.send(result);
 });
@@ -31,9 +31,7 @@ router.post("/addEP", async (req, res) => {
     res.send(req.body);
 });
 
-router.get("/changeProductsState", (req, res) => {
-    res.send("working");
-});
+router.get("/changeProductsState", cntrl.changeState);
 
 router.get("/cart", (req, res) => {
     res.render("cart.ejs");

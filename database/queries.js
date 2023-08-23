@@ -28,6 +28,7 @@ const showProducts = async (body) => {
                 p.p_category,
                 p.p_des,
                 p.p_price,
+                p.p_state,
                 SUM(pa.amount) AS total_amount
             FROM
                 products p
@@ -49,6 +50,7 @@ const searchQuery = async (query) => {
             p.p_category,
             p.p_des,
             p.p_price,
+            p.p_state,
             SUM(pa.amount) AS total_amount
         FROM
             products p
@@ -87,6 +89,13 @@ const addedProduct = async (body) => {
     );
 };
 
+const changeState = async (p_name, state) => {
+    await pool.query(`update products set p_state = ? where p_name = ?`, [
+        state,
+        p_name,
+    ]);
+};
+
 const qr = {
     selectProducts,
     selectAdmin,
@@ -95,6 +104,7 @@ const qr = {
     showSuppliers,
     searchQuery,
     addedProduct,
+    changeState,
 };
 
 module.exports = qr;
