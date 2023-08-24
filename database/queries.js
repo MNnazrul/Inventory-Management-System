@@ -148,7 +148,61 @@ const addIntoOrderPayment = async (code, date_time, paid) => {
     );
 };
 
+const showOrderPlaced = async () => {
+    const result = await pool.query(
+        `select * from order_placed order by o_code desc`
+    );
+    return result[0];
+};
+
+const clearState = async () => {
+    await pool.query(
+        `update products set p_state = ? where p_state = ?`,
+        [0, 1]
+    );
+};
+
+const aInfo = async (o_code) => {
+    const result = await pool.query(
+        `SELECT SUM(b.paid) as total_paid, a.total_amount, a.discount, a.date_time
+        FROM order_placed AS a
+        JOIN order_payment AS b ON a.o_code = b.o_code
+        WHERE a.o_code = ?;
+        `,
+        [o_code]
+    );
+    return result[0];
+};
+
+const pInfo = async (o_code) => {
+    const result = await pool.query(
+        `SELECT p_name, p_quantity, p_price, (p_quantity * p_price) AS subtotal
+        FROM orders
+        WHERE o_code = ?
+        `,
+        [o_code]
+    );
+    return result[0];
+};
+
+const cInfo = async (o_code) => {
+    const result = await pool.query(
+        `select shop_name, shop_address from customers where shop_name = (select customer from order_placed where o_code = ?)`,
+        [o_code]
+    );
+    return result[0];
+};
+
+const paymentInfo = async (o_code) => {
+    const result = await pool.query(
+        `select * from order_payment where o_code = ?`,
+        [o_code]
+    );
+    return result[0];
+};
+
 const qr = {
+    paymentInfo,
     selectProducts,
     selectAdmin,
     insertIntoProduct,
@@ -162,6 +216,11 @@ const qr = {
     addIntoOrder,
     addIntoOrderPlaced,
     addIntoOrderPayment,
+    showOrderPlaced,
+    clearState,
+    aInfo,
+    pInfo,
+    cInfo,
 };
 
 module.exports = qr;

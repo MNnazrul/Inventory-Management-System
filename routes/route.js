@@ -6,9 +6,7 @@ const qr = require("../database/queries");
 router.post("/by", (req, res) => {});
 
 router.get("/dummy", async (req, res) => {
-    const query = "product";
-    const result = await qr.searchQuery(query);
-    res.send(result);
+    res.render("due_payment.ejs");
 });
 
 router.get("/", (req, res) => {
@@ -35,9 +33,7 @@ router.get("/changeProductsState", cntrl.changeState);
 
 router.get("/cart", cntrl.showCart);
 
-router.get("/invoice", (req, res) => {
-    res.render("invoice.ejs");
-});
+router.get("/invoice", cntrl.invoiceFun);
 
 router.get("/users", (req, res) => {
     res.render("users.ejs");
@@ -47,11 +43,19 @@ router.get("/tem_dash", (req, res) => {
     res.render("tem_dash.ejs");
 });
 
+router.get("/orders", cntrl.showOrders);
+
 router.post("/placeOrder", cntrl.placeOrder);
 
 router.get("/search", cntrl.pSearch);
 
 router.get("/changeStateFromCart", cntrl.changeStateFromCart);
+
+router.get("/viewInvoice", cntrl.viewInvoince);
+
+router.get("/duePayment", cntrl.duePayment);
+
+router.post("/addNewPayment", cntrl.newPaid);
 
 router.post("/addP", async (req, res) => {});
 
