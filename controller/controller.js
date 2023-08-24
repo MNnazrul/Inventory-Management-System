@@ -195,7 +195,22 @@ const newPaid = async (req, res) => {
     res.redirect("/orders");
 };
 
+const damage = async (req, res) => {
+    const rslt = await qr.damageProduct();
+    return res.send("working");
+    res.send(damage);
+};
+
+const expenses = async (req, res) => {
+    const result = await qr.expenses();
+    const mostC = await qr.mostCustomer();
+    const mostP = await qr.mostProduct();
+    return res.send(result);
+    res.send(result, mostC, mostP);
+};
+
 const cntrl = {
+    expenses,
     duePayment,
     viewInvoince,
     addNewProduct,
@@ -208,6 +223,7 @@ const cntrl = {
     invoiceFun,
     showOrders,
     newPaid,
+    damage,
 };
 
 module.exports = cntrl;

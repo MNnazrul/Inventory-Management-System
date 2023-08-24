@@ -201,7 +201,46 @@ const paymentInfo = async (o_code) => {
     return result[0];
 };
 
+const addDamage = async () => {
+    await pool.query(
+        `insert into damage (p_name, p_price, amount, des, date_time) values (?, ?, ?, ?, ?)`,
+        [p_name, p_price, amount, des, date_time]
+    );
+};
+
+const damageProduct = async () => {
+    const result = await pool.query(`select * from damage`);
+    return result[0];
+};
+
+const expenses = async () => {
+    const result = await pool.query(`select * from expenses`);
+
+    return result[0];
+};
+
+// select customer, sum(paid) as t_paid from order_placed, order_payment group by customer order by t_paid desc;
+// select p_name, sum(paid) as t_paid from orders, order_payment group by p_name order by t_paid desc;
+
+const mostCustomer = async () => {
+    const result = await pool.query(
+        `select customer, sum(paid) as t_paid from order_placed, order_payment group by customer order by t_paid desc`
+    );
+    return result[0];
+};
+
+const mostProduct = async () => {
+    const result = await pool.query(
+        `select p_name, sum(paid) as t_paid from orders, order_payment group by p_name order by t_paid desc`
+    );
+    return result[0];
+};
+
 const qr = {
+    addDamage,
+    mostProduct,
+    mostCustomer,
+    expenses,
     paymentInfo,
     selectProducts,
     selectAdmin,
@@ -221,6 +260,7 @@ const qr = {
     aInfo,
     pInfo,
     cInfo,
+    damageProduct,
 };
 
 module.exports = qr;

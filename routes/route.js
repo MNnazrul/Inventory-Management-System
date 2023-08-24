@@ -17,9 +17,7 @@ router.get("/signup", (req, res) => {
     res.render("signup.ejs");
 });
 
-router.get("/dashboard", (req, res) => {
-    res.render("dashboard.ejs");
-});
+router.get("/dashboard", cntrl.expenses);
 
 router.get("/product", cntrl.showP);
 
@@ -56,6 +54,8 @@ router.get("/viewInvoice", cntrl.viewInvoince);
 router.get("/duePayment", cntrl.duePayment);
 
 router.post("/addNewPayment", cntrl.newPaid);
+
+router.get("/damage", cntrl.damage);
 
 router.post("/addP", async (req, res) => {});
 
