@@ -53,8 +53,9 @@ app.get("/invoice", (req, res) => {
     res.render("invoice.ejs");
 });
 
-app.get("/users", (req, res) => {
-    res.render("users.ejs");
+app.post("/users", (req, res) => {
+    res.send(req.body)
+    // res.render("users.ejs");
 });
 
 app.get("/tem_dash", (req, res) => {

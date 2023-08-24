@@ -688,8 +688,8 @@
                                     </h1>
                                     <form
                                       class="text-left space-y-4 md:space-y-6"
-                                      action=""
-                                      method=""
+                                      action="/users"
+                                      method="post"
                                     >
                                       <div class="grid grid-cols-2 gap-4">
                                         <div>
@@ -704,12 +704,23 @@
                                             name="p_name"
                                             id="p_name"
                                             class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                            placeholder="Head Phone"
                                             value="%= row.p_name%><%= i+1 %>"
+                                            disabled
                                           />
                                         </div>
 
                                         <div>
+                                          <input
+                                            type="hidden"
+                                            name="product_name"
+                                            value="%= row.p_name%><%= i+1 %>"
+                                          />
+                                          <input
+                                            type="hidden"
+                                            name="product_price"
+                                            value="%= row.p_price%><%= i+1 %>"
+                                          />
+
                                           <label
                                             for="dam_amount"
                                             class="ml-2 block mb-2 text-sm font-medium text-gray-900"
@@ -721,8 +732,8 @@
                                             name="dam_amount"
                                             id="dam_amount"
                                             class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                            placeholder="0"
-                                            min="0"
+                                            placeholder="1"
+                                            min="1"
                                             required=""
                                           />
                                         </div>
@@ -736,9 +747,9 @@
                                         </label>
                                         <input
                                           type="text"
-                                          name="dam_scription"
+                                          name="dam_discription"
                                           class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                          placeholder="Accident"
+                                          value="Accident"
                                         />
                                       </div>
 
