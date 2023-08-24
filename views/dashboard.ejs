@@ -448,8 +448,8 @@
                   </h3>
                   <span
                     class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
-                    >%= data.total_supply %></span
-                  >
+                    >%= data.total_supply %>
+                  </span>
                   <p
                     class="flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
                   ></p>
@@ -503,31 +503,32 @@
                 class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
               >
                 <div class="flex justify-center items-center w-full">
-                  middle
+                  <h3
+                    class="flex items-center mb-4 text-lg font-semibold text-gray-900 dark:text-white"
+                  >
+                    Top Products
+                  </h3>
                 </div>
+
                 <div class="w-full">
                   <table class="min-w-full table-auto">
                     <thead>
-                      <tr class="bg-gray-100">
-                        <th class="py-2 px-4 font-semibold text-left">Name</th>
-                        <th class="py-2 px-4 font-semibold text-left">Age</th>
+                      <tr class="">
                         <th class="py-2 px-4 font-semibold text-left">
-                          Location
+                          Product
+                        </th>
+                        <th class="py-2 px-4 font-semibold text-left"></th>
+                        <th class="py-2 px-4 font-semibold text-right">
+                          Total sold
                         </th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                       <tr>
                         <td class="py-2 px-4">John Doe</td>
-                        <td class="py-2 px-4">30</td>
-                        <td class="py-2 px-4">New York</td>
+                        <td class="py-2 px-4"></td>
+                        <td class="py-2 px-4 text-right">New York</td>
                       </tr>
-                      <tr>
-                        <td class="py-2 px-4">Jane Smith</td>
-                        <td class="py-2 px-4">25</td>
-                        <td class="py-2 px-4">Los Angeles</td>
-                      </tr>
-                      <!-- Add more rows as needed -->
                     </tbody>
                   </table>
                 </div>
@@ -536,29 +537,33 @@
               <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
               >
+                <div class="flex justify-center items-center w-full">
+                  <h3
+                    class="flex items-center mb-4 text-lg font-semibold text-gray-900 dark:text-white"
+                  >
+                    Top Customers
+                  </h3>
+                </div>
+
                 <div class="w-full">
                   <table class="min-w-full table-auto">
                     <thead>
-                      <tr class="bg-gray-100">
-                        <th class="py-2 px-4 font-semibold text-left">Name</th>
-                        <th class="py-2 px-4 font-semibold text-left">Age</th>
+                      <tr class="">
                         <th class="py-2 px-4 font-semibold text-left">
-                          Location
+                          Customer
+                        </th>
+                        <th class="py-2 px-4 font-semibold text-left"></th>
+                        <th class="py-2 px-4 font-semibold text-right">
+                          Total Purchased
                         </th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                       <tr>
                         <td class="py-2 px-4">John Doe</td>
-                        <td class="py-2 px-4">30</td>
-                        <td class="py-2 px-4">New York</td>
+                        <td class="py-2 px-4"></td>
+                        <td class="py-2 px-4 text-right">New York</td>
                       </tr>
-                      <tr>
-                        <td class="py-2 px-4">Jane Smith</td>
-                        <td class="py-2 px-4">25</td>
-                        <td class="py-2 px-4">Los Angeles</td>
-                      </tr>
-                      <!-- Add more rows as needed -->
                     </tbody>
                   </table>
                 </div>
