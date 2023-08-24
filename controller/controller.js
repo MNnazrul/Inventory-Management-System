@@ -73,6 +73,18 @@ const placeOrder = async (req, res) => {
     await qr.addIntoOrderPlaced(o_code, req.body, curDate, total_price);
     await qr.addIntoOrderPayment(o_code, curDate, req.body.paid);
 
+    let id = -1;
+    cp.forEach(async (row) => {
+        id = id + 1;
+        await ser.minusQuan(row.p_code, arr[id]);
+    });
+
+    return res.send("working");
+
+    for (let i = 0; i < cp.length; i++) {
+        await ser.minusQuan(cp[i].p_code, arr[i]);
+    }
+
     let grandTotal = 0;
     for (let i = 0; i < cp.length; i++) {
         cp[i].subtotal = parseFloat(arr[i] * cp[i].p_price).toFixed(2);
@@ -80,8 +92,8 @@ const placeOrder = async (req, res) => {
             grandTotal + parseFloat((arr[i] * cp[i].p_price).toFixed(2));
     }
 
-    console.log(cp);
-    console.log(grandTotal);
+    // console.log(cp);
+    // console.log(arr);
     const data = {
         o_code,
         customer: req.body.customer,
@@ -202,9 +214,13 @@ const damage = async (req, res) => {
 };
 
 const expenses = async (req, res) => {
-    const result = await qr.expenses();
+    const data1 = await qr.expenses();
     const mostC = await qr.mostCustomer();
     const mostP = await qr.mostProduct();
+    const trans = await qr.transactions();
+    // return res.send(data[0]);
+    const data = data1[0];
+    return res.render("dashboard.ejs", { data, mostC, mostP, trans });
     return res.send(result);
     res.send(result, mostC, mostP);
 };

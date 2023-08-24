@@ -236,7 +236,39 @@ const mostProduct = async () => {
     return result[0];
 };
 
+const transactions = async () => {
+    const result = await pool.query(
+        `
+            SELECT 'supplied' AS source_table, supplier, entry_date AS date_time, (price * amount) AS total_amount
+            FROM product_added
+            UNION
+            SELECT 'sold' AS source_table, customer, date_time, total_amount 
+            FROM order_placed
+            ORDER BY date_time DESC
+        `
+    );
+    return result[0];
+};
+
+const productAddedByCode = async (p_code) => {
+    const result = await pool.query(
+        `select * from product_added where p_code = ?`,
+        [p_code]
+    );
+    return result[0];
+};
+
+const quanMinusByEntrDate = async (entry_date, up) => {
+    await pool.query(
+        `update product_added set amount = amount - ? where entry_date = ?`,
+        [up, entry_date]
+    );
+};
+
 const qr = {
+    quanMinusByEntrDate,
+    productAddedByCode,
+    transactions,
     addDamage,
     mostProduct,
     mostCustomer,

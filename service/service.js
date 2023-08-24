@@ -34,7 +34,22 @@ const codeGenerator = async () => {
     return o_code;
 };
 
+const minusQuan = async (p_code, p_quan) => {
+    // console.log(`${p_code} => ${p_quan}`);
+    const result = await qr.productAddedByCode(p_code);
+    // console.log(result);
+    result.forEach(async (row) => {
+        if (p_quan == 0) return 0;
+        let mn = Math.min(p_quan, row.amount);
+        p_quan = p_quan - mn;
+        await qr.quanMinusByEntrDate(row.entry_date, mn);
+    });
+    // const rslt1 = await qr.productAddedByCode(p_code);
+    // console.log(rslt1);
+};
+
 const ser = {
+    minusQuan,
     insertIntoOrders,
     find_total_price,
     dateTime,
