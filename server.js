@@ -53,6 +53,11 @@ app.get("/invoice", (req, res) => {
     res.render("invoice.ejs");
 });
 
+app.get("/tem_product", (req, res) => {
+    res.render("tem_product.ejs");
+});
+
+
 app.post("/users", (req, res) => {
     res.send(req.body)
     // res.render("users.ejs");
