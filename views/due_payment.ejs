@@ -460,7 +460,7 @@
                         Invoice
                       </h3>
                       <span class="mt-1 block text-gray-500 font-bold"
-                        >#3682303</span
+                        ># %= data.o_code %></span
                       >
                     </div>
                     <!-- Col -->
@@ -487,12 +487,10 @@
                       <h3
                         class="text-lg font-semibold text-gray-800 dark:text-gray-200"
                       >
-                        Sara Williams
+                        %= data.customer %>
                       </h3>
                       <address class="mt-2 not-italic text-gray-500">
-                        280 Suzanne Throughway,<br />
-                        Breannabury, OR 45801,<br />
-                        United States<br />
+                        %= data.payment address %>
                       </address>
                     </div>
                     <!-- Col -->
@@ -508,15 +506,9 @@
                           >
                             Invoice date:
                           </dt>
-                          <dd class="col-span-2 text-gray-500">03/10/2018</dd>
-                        </dl>
-                        <dl class="grid sm:grid-cols-5 gap-x-3">
-                          <dt
-                            class="col-span-3 font-semibold text-gray-800 dark:text-gray-200"
-                          >
-                            Due date:
-                          </dt>
-                          <dd class="col-span-2 text-gray-500">03/11/2018</dd>
+                          <dd class="col-span-2 text-gray-500">
+                            %= data.date_time %>
+                          </dd>
                         </dl>
                       </div>
                       <!-- End Grid -->
@@ -690,7 +682,7 @@
                     <label
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span id="total_amount"> 500.00 </span>
+                      $<span id="total_amount"> %= data.total_price %> </span>
                     </label>
                   </div>
                 </div>
@@ -708,7 +700,7 @@
                     <label
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span id="due"> 50.00 </span>
+                      $<span id="due"> %= data.due %> </span>
                     </label>
                   </div>
                 </div>
@@ -746,7 +738,7 @@
                     <label
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
                     >
-                      $<span id="new_due"> 50.00</span>
+                      $<span id="new_due"> %= data.due %></span>
                     </label>
                   </div>
                 </div>
