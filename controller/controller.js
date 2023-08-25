@@ -163,13 +163,13 @@ const viewInvoince = async (req, res) => {
         payment_address: rstl3[0].shop_address,
         time_date: rstl1[0].date_time,
         grand_total: (
-            rstl1[0].total_amount *
+            rstl1[0].total_amount /
             (1 - rstl1[0].discount / 100)
         ).toFixed(2),
         discount: rstl1[0].discount,
         total_price: rstl1[0].total_amount,
         paid: rstl1[0].total_paid,
-        due: rstl1[0].total_amount - rstl1[0].total_paid,
+        due: (rstl1[0].total_amount - rstl1[0].total_paid).toFixed(2),
     };
     const cp = rstl2;
 
