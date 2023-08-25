@@ -1,3 +1,4 @@
+const { parse } = require("dotenv");
 const qr = require("../database/queries");
 const ser = require("../service/service");
 
@@ -7,26 +8,40 @@ const addNewProduct = async (req, res) => {
     const pref = dateStr.substring(7);
     const pCode = `${pref}${randomNumber}`;
     const body = req.body;
-    const formattedDate = new Date().toISOString().split("T")[0];
 
-    body.entry_date = formattedDate;
+    body.entry_date = await ser.dateTime();
     body.product_code = pCode;
 
-    try {
-        qr.addedProduct(body);
-    } catch (err) {
-        return res.send("Error occured");
-    }
+    let t_price = parseFloat(body.price * body.amount).toFixed(2);
 
-    res.json("working");
+    await qr.addedProduct(body);
+    await qr.addIntoProducts(body);
+    await qr.manageSupplyExpenses(t_price);
+
+    console.log(body);
+    res.redirect("/product");
 };
 
-let items;
+const addExistingProduct = async (req, res) => {
+    const body = req.body;
+
+    body.entry_date = await ser.dateTime();
+
+    let t_price = parseFloat(body.price * body.amount).toFixed(2);
+
+    await qr.addedProduct(body);
+    await qr.updateProductAmount(body);
+    await qr.manageSupplyExpenses(t_price);
+
+    console.log(body);
+    res.redirect("/product");
+};
 
 const showP = async (req, res) => {
+    let items;
     items = await qr.showProducts();
     const suppliers = await qr.showSuppliers();
-    return res.render("new1_dashboard.ejs", { items, suppliers });
+    return res.render("new_dashboard.ejs", { items, suppliers });
 };
 
 const changeState = async (req, res) => {
@@ -74,16 +89,16 @@ const placeOrder = async (req, res) => {
     await qr.addIntoOrderPayment(o_code, curDate, req.body.paid);
 
     let id = -1;
+    let arr1 = arr;
     cp.forEach(async (row) => {
         id = id + 1;
-        await ser.minusQuan(row.p_code, arr[id]);
+        let p = arr[id];
+        let q = arr[id];
+        await ser.minusQuan(row.p_code, p);
+        await qr.updateProducts(row.p_code, q);
     });
 
-    return res.send("working");
-
-    for (let i = 0; i < cp.length; i++) {
-        await ser.minusQuan(cp[i].p_code, arr[i]);
-    }
+    console.log(arr);
 
     let grandTotal = 0;
     for (let i = 0; i < cp.length; i++) {
@@ -92,8 +107,6 @@ const placeOrder = async (req, res) => {
             grandTotal + parseFloat((arr[i] * cp[i].p_price).toFixed(2));
     }
 
-    // console.log(cp);
-    // console.log(arr);
     const data = {
         o_code,
         customer: req.body.customer,
@@ -105,6 +118,11 @@ const placeOrder = async (req, res) => {
         paid: req.body.paid,
         due: (total_price - req.body.paid).toFixed(2),
     };
+
+    const a1 = data.paid;
+    const b1 = data.due;
+
+    await qr.manageSalesExpenses(a1, b1);
 
     console.log(data.time_date);
     await qr.clearState();
@@ -203,14 +221,24 @@ const duePayment = async (req, res) => {
 const newPaid = async (req, res) => {
     const body = req.body;
     let curDate = await ser.dateTime();
+
+    let a1 = body.paid;
+
+    await qr.manageDueExpenses(a1);
+
     await qr.addIntoOrderPayment(parseInt(body.values), curDate, body.paid);
     res.redirect("/orders");
 };
 
 const damage = async (req, res) => {
-    const rslt = await qr.damageProduct();
-    return res.send("working");
-    res.send(damage);
+    const rows = await qr.damageProduct();
+    let total_loss = 0.0;
+    rows.forEach(async (row) => {
+        total_loss = total_loss + parseFloat(row.total_cost);
+    });
+    total_loss = total_loss.toFixed(2);
+    // return res.send(rows);
+    return res.render("damage_products.ejs", { rows, total_loss });
 };
 
 const expenses = async (req, res) => {
@@ -218,14 +246,51 @@ const expenses = async (req, res) => {
     const mostC = await qr.mostCustomer();
     const mostP = await qr.mostProduct();
     const trans = await qr.transactions();
-    // return res.send(data[0]);
+
     const data = data1[0];
     return res.render("dashboard.ejs", { data, mostC, mostP, trans });
     return res.send(result);
     res.send(result, mostC, mostP);
 };
 
+const addIntoDamage = async (req, res) => {
+    const body = req.body;
+    let dam_minus =
+        parseFloat(body.product_price) * parseFloat(body.dam_amount);
+
+    const curTime = await ser.dateTime();
+    console.log(body.dam_description);
+    await qr.addDamage(body, curTime);
+    let p = body.dam_amount;
+    let q = body.dam_amount;
+    await qr.minusFromExDam(dam_minus.toFixed(2));
+    await ser.minusQuan(body.p_code, p);
+    await qr.updateProducts(body.p_code, q);
+
+    res.send(body);
+};
+
+const proHis = async (req, res) => {
+    // return res.render("supply_history.ejs");
+    const result = await qr.productHistory();
+    let total_purchase = 0;
+    result.forEach(async (row) => {
+        total_purchase = total_purchase + parseFloat(row.total);
+    });
+    total_purchase = total_purchase.toFixed(2);
+    // return res.send(result);
+    return res.render("supply_history.ejs", { result, total_purchase });
+};
+
+// body.product_name,
+// body.product_price,
+// body.dam_amount,
+// body.dam_description,
+// date_time,
 const cntrl = {
+    proHis,
+    addExistingProduct,
+    addIntoDamage,
     expenses,
     duePayment,
     viewInvoince,

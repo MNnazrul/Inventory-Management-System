@@ -74,18 +74,26 @@ const showSuppliers = async () => {
 
 const addedProduct = async (body) => {
     await pool.query(
-        `INSERT INTO product_added (p_code, price, amount, entry_date, mf_date, exp_date, supplier)
-        VALUES (?,?,?,?,?,?,?)
+        `INSERT INTO product_added (p_code, price, amount, i_amount, entry_date, mf_date, exp_date, supplier)
+        VALUES (?,?,?,?,?,?,?,?)
         `,
         [
             body.product_code,
             body.price,
-            body.product_code,
+            body.amount,
+            body.amount,
             body.entry_date,
             body.mf_date,
             body.exp_date,
             body.supplier,
         ]
+    );
+};
+
+const updateProductAmount = async (body) => {
+    await pool.query(
+        `update products set total_amount = total_amount + ?, p_price = ? where p_code = ?`,
+        [body.amount, body.price, body.product_code]
     );
 };
 
@@ -201,15 +209,23 @@ const paymentInfo = async (o_code) => {
     return result[0];
 };
 
-const addDamage = async () => {
+const addDamage = async (body, date_time) => {
     await pool.query(
         `insert into damage (p_name, p_price, amount, des, date_time) values (?, ?, ?, ?, ?)`,
-        [p_name, p_price, amount, des, date_time]
+        [
+            body.product_name,
+            body.product_price,
+            body.dam_amount,
+            body.dam_description,
+            date_time,
+        ]
     );
 };
 
 const damageProduct = async () => {
-    const result = await pool.query(`select * from damage`);
+    const result = await pool.query(
+        `select p_name, p_price, amount, des, date_time, (p_price * amount) as total_cost from damage order by date_time desc`
+    );
     return result[0];
 };
 
@@ -265,7 +281,74 @@ const quanMinusByEntrDate = async (entry_date, up) => {
     );
 };
 
+const updateProducts = async (p_code, am) => {
+    await pool.query(
+        `update products set total_amount = total_amount - ? where p_code = ?`,
+        [am, p_code]
+    );
+};
+
+const minusFromExDam = async (dam_minus) => {
+    await pool.query(`update expenses set total_dam_exp = total_dam_exp + ?`, [
+        dam_minus,
+    ]);
+};
+
+const addIntoProducts = async (body) => {
+    await pool.query(
+        `insert into products (p_name, p_code, p_category, p_des, p_price, total_amount, p_state) values (?,?,?,?,?,?,?) `,
+        [
+            body.product_name,
+            body.product_code,
+            body.product_category,
+            body.product_description,
+            body.price,
+            body.amount,
+            0,
+        ]
+    );
+};
+
+const manageSupplyExpenses = async (t_price) => {
+    await pool.query(
+        `update expenses set total_balance = total_balance - ?, total_supply = total_supply + ?`,
+        [t_price, t_price]
+    );
+};
+
+const manageSalesExpenses = async (t_price, t_due) => {
+    await pool.query(
+        `update expenses set total_balance = total_balance + ?, total_sales = total_sales + ?, total_due = total_due + ?`,
+        [t_price, t_price, t_due]
+    );
+};
+
+const manageDueExpenses = async (paid) => {
+    await pool.query(
+        `update expenses set total_balance = total_balance + ?, total_sales = total_sales + ?, total_due = total_due - ?`,
+        [paid, paid, paid]
+    );
+};
+
+const productHistory = async () => {
+    const result = await pool.query(
+        `
+        select p_name, a.p_code, entry_date, mf_date, exp_date, supplier, price, amount, (price*amount) as total, p_category 
+        from products as a, product_added as b 
+        where a.p_code = b.p_code;
+        `
+    );
+    return result[0];
+};
+
 const qr = {
+    productHistory,
+    manageDueExpenses,
+    manageSalesExpenses,
+    manageSupplyExpenses,
+    addIntoProducts,
+    minusFromExDam,
+    updateProducts,
     quanMinusByEntrDate,
     productAddedByCode,
     transactions,
@@ -293,6 +376,7 @@ const qr = {
     pInfo,
     cInfo,
     damageProduct,
+    updateProductAmount,
 };
 
 module.exports = qr;

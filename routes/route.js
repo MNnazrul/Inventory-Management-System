@@ -6,7 +6,7 @@ const qr = require("../database/queries");
 router.post("/by", (req, res) => {});
 
 router.get("/dummy", async (req, res) => {
-    res.render("due_payment.ejs");
+    res.render("damage_products.ejs");
 });
 
 router.get("/", (req, res) => {
@@ -23,9 +23,7 @@ router.get("/product", cntrl.showP);
 
 router.post("/addNewProduct", cntrl.addNewProduct);
 
-router.post("/addEP", async (req, res) => {
-    res.send(req.body);
-});
+router.post("/addEP", cntrl.addExistingProduct);
 
 router.get("/changeProductsState", cntrl.changeState);
 
@@ -58,5 +56,9 @@ router.post("/addNewPayment", cntrl.newPaid);
 router.get("/damage", cntrl.damage);
 
 router.post("/addP", async (req, res) => {});
+
+router.post("/addIntoDamage", cntrl.addIntoDamage);
+
+router.get("/supply-history", cntrl.proHis);
 
 module.exports = router;
