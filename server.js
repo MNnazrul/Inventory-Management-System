@@ -57,6 +57,13 @@ app.get("/tem_product", (req, res) => {
     res.render("tem_product.ejs");
 });
 
+app.get("/damaged_products", (req, res) => {
+    res.render("damaged_products.ejs");
+});
+
+app.get("/product_history", (req, res) => {
+    res.render("product_history.ejs");
+});
 
 app.post("/users", (req, res) => {
     res.send(req.body)
