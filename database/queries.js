@@ -255,7 +255,7 @@ const mostProduct = async () => {
 const transactions = async () => {
     const result = await pool.query(
         `
-            SELECT 'supplied' AS source_table, supplier, entry_date AS date_time, (price * amount) AS total_amount
+            SELECT 'supplied' AS source_table, supplier, entry_date AS date_time, (price * i_amount) AS total_amount
             FROM product_added
             UNION
             SELECT 'sold' AS source_table, customer, date_time, paid  
@@ -333,7 +333,7 @@ const manageDueExpenses = async (paid) => {
 const productHistory = async () => {
     const result = await pool.query(
         `
-        select p_name, a.p_code, entry_date, mf_date, exp_date, supplier, price, amount, (price*amount) as total, p_category 
+        select p_name, a.p_code, entry_date, mf_date, exp_date, supplier, price, i_amount, (price*i_amount) as total, p_category 
         from products as a, product_added as b 
         where a.p_code = b.p_code
         order by entry_date desc

@@ -70,6 +70,9 @@ const checkExpired = async () => {
                 dam_amount: row.amount,
                 dam_description: "Date Expired",
             };
+            let dam_minus =
+                parseFloat(body.product_price) * parseFloat(row.amount);
+            await qr.minusFromExDam(dam_minus.toFixed(2));
             await qr.addDamage(body, date1);
             await qr.updateProducts(row.p_code, row.amount);
             await qr.quanMinusByEntrDate(row.entry_date, p);

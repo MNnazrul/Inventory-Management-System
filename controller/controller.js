@@ -270,7 +270,8 @@ const addIntoDamage = async (req, res) => {
     await ser.minusQuan(body.p_code, p);
     await qr.updateProducts(body.p_code, q);
 
-    res.send(body);
+    // res.send(body);
+    res.redirect("/product")
 };
 
 const proHis = async (req, res) => {
