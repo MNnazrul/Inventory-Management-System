@@ -5,8 +5,8 @@ const selectProducts = async () => {
     return result[0];
 };
 
-const selectAdmin = async () => {
-    const result = await pool.query(`select * from admin where user_id = 1`);
+const selectAdmin = async (email) => {
+    const result = await pool.query(`select * from admin where email = ?`,[email]);
     return result[0];
 };
 
@@ -158,7 +158,7 @@ const addIntoOrderPayment = async (code, date_time, paid) => {
 
 const showOrderPlaced = async () => {
     const result = await pool.query(
-        `select * from order_placed order by o_code desc`
+        `select * from order_placed order by date_time desc`
     );
     return result[0];
 };
@@ -259,7 +259,7 @@ const transactions = async () => {
             FROM product_added
             UNION
             SELECT 'sold' AS source_table, customer, date_time, paid  
-            FROM order_placed as a,order_payment as b WHERE a.o_code = b.o_code
+            FROM order_placed as a,order_payment as b WHERE a.o_code = b.o_code and paid != 0
             ORDER BY date_time DESC
         `
     );
@@ -335,7 +335,8 @@ const productHistory = async () => {
         `
         select p_name, a.p_code, entry_date, mf_date, exp_date, supplier, price, amount, (price*amount) as total, p_category 
         from products as a, product_added as b 
-        where a.p_code = b.p_code;
+        where a.p_code = b.p_code
+        order by entry_date desc
         `
     );
     return result[0];

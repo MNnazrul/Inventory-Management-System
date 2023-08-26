@@ -383,110 +383,185 @@
         id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900"
       >
-        <main>
+        <main class="bg-gray-100">
           <div class="px-4 pt-6">
             <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3"></div>
-            <div class="grid w-full gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3">
+            <div
+              class="grid w-full grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3"
+            >
               <div
-                class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-6 flex justify-between items-center"
+                class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
               >
                 <div class="w-full">
                   <h3
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-300"
+                    class="text-base font-semibold text-gray-500 dark:text-gray-400"
                   >
-                    Total Balance
-                  </h3>
-                  <span
-                    class="text-3xl font-bold text-gray-900 dark:text-white mt-2 sm:text-4xl"
-                  >
-                    <%=data.total_balance %>
-                  </span>
-                </div>
-                <div class="w-full" id="week-signups-chart"></div>
-              </div>
-
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-6 flex justify-between items-center"
-              >
-                <div class="w-full">
-                  <h3
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-300"
-                  >
-                    Total Sales
-                  </h3>
-                  <span
-                    class="text-3xl font-bold text-gray-900 dark:text-white mt-2 sm:text-4xl"
-                  >
-                    <%=data.total_sales %>
-                  </span>
-                </div>
-                <div class="w-full" id="week-signups-chart"></div>
-              </div>
-
-              <div
-                class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-              >
-                <div class="w-full">
-                  <h3
-                    class="text-base font-normal text-gray-500 dark:text-gray-400"
-                  >
-                    Total Supplied Amount
+                    Balance
                   </h3>
                   <span
                     class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
-                    ><%= data.total_supply %>
-                  </span>
+                    >$<%=data.total_balance %></span
+                  >
                   <p
-                    class="flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
-                  ></p>
+                    class="mt-2 flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
+                  >
+                    <% if (trans[0].source_table === "supplied") { %> -
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-red-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } else { %>
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-green-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } %> Last Transaction
+                  </p>
                 </div>
-                <div class="w-full" id="week-signups-chart"></div>
+                <div class="w-full" id="new-products-chart"></div>
               </div>
               <div
-                class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+                class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
               >
                 <div class="w-full">
                   <h3
-                    class="text-base font-normal text-gray-500 dark:text-gray-400"
+                    class="text-base font-semibold text-gray-500 dark:text-gray-400"
+                  >
+                    Sales
+                  </h3>
+                  <span
+                    class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
+                    >$<%=data.total_sales %></span
+                  >
+                  <p
+                    class="mt-2 flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
+                  >
+                    <% if (trans[0].source_table === "supplied") { %> -
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-red-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } else { %>
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-green-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } %> Last Transaction
+                  </p>
+                </div>
+                <div class="w-full" id="new-products-chart"></div>
+              </div>
+              <div
+                class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+              >
+                <div class="w-full">
+                  <h3
+                    class="text-base font-semibold text-gray-500 dark:text-gray-400"
+                  >
+                    Supplied Amount
+                  </h3>
+                  <span
+                    class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
+                    >$<%=data.total_supply %></span
+                  >
+                  <p
+                    class="mt-2 flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
+                  >
+                    <% if (trans[0].source_table === "supplied") { %> -
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-red-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } else { %>
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-green-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } %> Last Transaction
+                  </p>
+                </div>
+                <div class="w-full" id="new-products-chart"></div>
+              </div>
+
+              <div
+                class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+              >
+                <div class="w-full">
+                  <h3
+                    class="text-base font-semibold text-gray-500 dark:text-gray-400"
                   >
                     Damaged and Expired
                   </h3>
                   <span
                     class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
-                    ><%= data.total_dam_exp %></span
+                    >$<%=data.total_dam_exp %></span
                   >
                   <p
-                    class="flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
-                  ></p>
+                    class="mt-2 flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
+                  >
+                    <% if (trans[0].source_table === "supplied") { %> -
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-red-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } else { %>
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-green-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } %> Last Transaction
+                  </p>
                 </div>
-                <div class="w-full" id="week-signups-chart"></div>
+                <div class="w-full" id="new-products-chart"></div>
               </div>
+
               <div
-                class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+                class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800"
               >
                 <div class="w-full">
                   <h3
-                    class="text-base font-normal text-gray-500 dark:text-gray-400"
+                    class="text-base font-semibold text-gray-500 dark:text-gray-400"
                   >
                     Customer's Due
                   </h3>
                   <span
                     class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white"
-                  >
-                    <%= data.total_due%></span
+                    >$<%=data.total_due%></span
                   >
                   <p
-                    class="flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
-                  ></p>
+                    class="mt-2 flex items-center text-base font-normal text-gray-500 dark:text-gray-400"
+                  >
+                    <% if (trans[0].source_table === "supplied") { %> -
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-red-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } else { %>
+                    <span
+                      class="flex items-center mr-1.5 text-sm text-green-500 dark:text-green-400"
+                    >
+                      $<%= trans[0].total_amount %>
+                    </span>
+                    <% } %> Last Transaction
+                  </p>
                 </div>
-                <div class="w-full" id="week-signups-chart"></div>
+                <div class="w-full" id="new-products-chart"></div>
               </div>
             </div>
 
             <div class="grid grid-cols-1 my-4 xl:grid-cols-2 xl:gap-4">
               <!-- Activity Card -->
               <div
-                class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
+                class="p-4 mb-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
               >
                 <div class="flex justify-center items-center w-full">
                   <h3
@@ -499,7 +574,7 @@
                 <div class="w-full">
                   <table class="min-w-full table-auto">
                     <thead>
-                      <tr class="">
+                      <tr class="bg-gray-100">
                         <th class="py-2 px-4 font-semibold text-left">
                           Product
                         </th>
@@ -512,10 +587,10 @@
                     <tbody class="divide-y divide-gray-200">
                       <% for (let i = 0; i < Math.min(5, mostP.length); i++) {
                       %> <%let row = mostP[i];%>
-                      <tr>
+                      <tr class="hover:bg-gray-100">
                         <td class="py-2 px-4"><%=row.p_name%></td>
                         <td class="py-2 px-4"></td>
-                        <td class="py-2 px-4 text-right"><%=row.t_paid%></td>
+                        <td class="py-2 px-4 text-right">$ <%=row.t_paid%></td>
                       </tr>
                       <%}%>
                     </tbody>
@@ -524,7 +599,7 @@
               </div>
               <!--Carousel widget -->
               <div
-                class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+                class="p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl dark:border-gray-700 sm:p-6 dark:bg-gray-800"
               >
                 <div class="flex justify-center items-center w-full">
                   <h3
@@ -536,7 +611,7 @@
 
                 <div class="w-full">
                   <table class="min-w-full table-auto">
-                    <thead>
+                    <thead class="bg-gray-100">
                       <tr class="">
                         <th class="py-2 px-4 font-semibold text-left">
                           Customer
@@ -550,10 +625,10 @@
                     <tbody class="divide-y divide-gray-200">
                       <% for (let i = 0; i < Math.min(5, mostC.length); i++) {
                       %> <%let row = mostC[i];%>
-                      <tr>
+                      <tr class="hover:bg-gray-100">
                         <td class="py-2 px-4"><%=row.customer%></td>
                         <td class="py-2 px-4"></td>
-                        <td class="py-2 px-4 text-right"><%=row.t_paid%></td>
+                        <td class="py-2 px-4 text-right">$ <%=row.t_paid%></td>
                       </tr>
                       <%}%>
                     </tbody>
@@ -567,7 +642,7 @@
             ></div>
 
             <div
-              class="mt-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+              class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-md hover:shadow-2xl dark:border-gray-700 sm:p-6 dark:bg-gray-800"
             >
               <!-- Card header -->
               <div class="items-center justify-between lg:flex">
@@ -591,7 +666,7 @@
                       <table
                         class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
                       >
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+                        <thead class="bg-gray-200 dark:bg-gray-700">
                           <tr>
                             <th
                               scope="col"
@@ -628,7 +703,7 @@
                         <tbody class="bg-white dark:bg-gray-800">
                           <% for (let i = 0; i < Math.min(10, trans.length);
                           i++) { %> <%let row = trans[i];%>
-                          <tr>
+                          <tr class="hover:bg-gray-100">
                             <td
                               class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white"
                             >
@@ -674,10 +749,43 @@
               </div>
               <!-- Card Footer -->
             </div>
+
+            <div
+              class="grid w-full grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3"
+            ></div>
           </div>
         </main>
       </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart pie -->
+    <script>
+      const dataPie = {
+        labels: ["JavaScript", "Python", "Ruby"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(133, 105, 241)",
+              "rgb(164, 101, 241)",
+              "rgb(101, 143, 241)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+
+      const configPie = {
+        type: "pie",
+        data: dataPie,
+        options: {},
+      };
+
+      var chartBar = new Chart(document.getElementById("chartPie"), configPie);
+    </script>
 
     <!-- <script async defer src="https://buttons.github.io/buttons.js "></script> -->
     <script src="https://flowbite-admin-dashboard.vercel.app//app.bundle.js "></script>

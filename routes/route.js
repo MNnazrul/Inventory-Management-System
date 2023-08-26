@@ -10,7 +10,7 @@ router.get("/dummy", async (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    res.render("login.ejs");
+    res.redirect("/login");
 });
 
 router.get("/signup", (req, res) => {

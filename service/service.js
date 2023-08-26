@@ -22,7 +22,7 @@ const insertIntoOrders = async (cp, arr, o_code) => {
 
 const dateTime = async () => {
     const now = new Date();
-    const localDatetime = moment(now).format("YYYY-MM-DD h:mm:ss A");
+    const localDatetime = moment(now).format("YYYY-MM-DD HH:mm:ss");
     return localDatetime;
 };
 
