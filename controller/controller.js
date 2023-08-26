@@ -282,12 +282,62 @@ const proHis = async (req, res) => {
     return res.render("supply_history.ejs", { result, total_purchase });
 };
 
+const customers = async(req,res) => {
+    const rows = await qr.showCustomers();
+    // return res.send({rows})
+    res.render("customers.ejs",{rows})
+}
+
+const addCustomer = async(req,res) => {
+    const body = req.body;
+    await qr.addCustomers(body);
+    // res.send(req.body);
+    res.redirect('/customers')
+}
+
+const removeCustomer = async(req,res) =>{
+    const receivedSerializedData = req.query.data;
+    const body = JSON.parse(receivedSerializedData);
+
+    await qr.deleteCustomers(body);
+    // res.send(body)
+    res.redirect("/customers");
+}
+
+const suppliers = async(req,res) => {
+    const rows = await qr.showSuppliers();
+    // return res.send({rows})
+    res.render("suppliers.ejs",{rows})
+}
+
+const addsupplier = async(req,res) => {
+    const body = req.body;
+    await qr.addSuppliers(body);
+    // res.send(req.body);
+    res.redirect('/suppliers')
+}
+
+const removeSuppliers = async(req,res) =>{
+    const receivedSerializedData = req.query.data;
+    const body = JSON.parse(receivedSerializedData);
+
+    await qr.deleteSuppliers(body);
+    // res.send(body)
+    res.redirect("/suppliers");
+}
+
 // body.product_name,
 // body.product_price,
 // body.dam_amount,
 // body.dam_description,
 // date_time,
 const cntrl = {
+    removeSuppliers,
+    addsupplier,
+    suppliers,
+    addCustomer,
+    removeCustomer,
+    customers,
     proHis,
     addExistingProduct,
     addIntoDamage,

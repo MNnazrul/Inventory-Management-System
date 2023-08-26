@@ -61,4 +61,16 @@ router.post("/addIntoDamage", cntrl.addIntoDamage);
 
 router.get("/supply-history", cntrl.proHis);
 
+router.get("/customers",cntrl.customers)
+
+router.get("/suppliers",cntrl.suppliers)
+
+router.post("/addNewCustomer",cntrl.addCustomer)
+
+router.get("/removeCustomer",cntrl.removeCustomer)
+
+router.post("/addNewSupplier",cntrl.addsupplier)
+
+router.get("/removeSupplier",cntrl.removeSuppliers)
+
 module.exports = router;

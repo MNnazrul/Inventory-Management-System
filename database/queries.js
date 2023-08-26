@@ -240,14 +240,14 @@ const expenses = async () => {
 
 const mostCustomer = async () => {
     const result = await pool.query(
-        `select customer, sum(paid) as t_paid from order_placed, order_payment group by customer order by t_paid desc`
+        `select customer, sum(paid) as t_paid from order_placed as a, order_payment as b where a.o_code = b.o_code group by customer order by t_paid desc;`
     );
     return result[0];
 };
 
 const mostProduct = async () => {
     const result = await pool.query(
-        `select p_name, sum(paid) as t_paid from orders, order_payment group by p_name order by t_paid desc`
+        `select p_name, sum(paid) as t_paid from orders as a, order_payment as b where a.o_code = b.o_code group by p_name order by t_paid desc;`
     );
     return result[0];
 };
@@ -258,8 +258,8 @@ const transactions = async () => {
             SELECT 'supplied' AS source_table, supplier, entry_date AS date_time, (price * amount) AS total_amount
             FROM product_added
             UNION
-            SELECT 'sold' AS source_table, customer, date_time, total_amount 
-            FROM order_placed
+            SELECT 'sold' AS source_table, customer, date_time, paid  
+            FROM order_placed as a,order_payment as b WHERE a.o_code = b.o_code
             ORDER BY date_time DESC
         `
     );
@@ -341,7 +341,40 @@ const productHistory = async () => {
     return result[0];
 };
 
+const addSuppliers = async(body) => {
+    await pool.query(
+        `insert into suppliers (s_name,s_address,s_phone,s_email,s_category) values(?,?,?,?,?)`,
+        [body.s_name,body.s_address,body.s_phone,body.s_email,body.s_category]
+    )
+}
+
+const deleteSuppliers = async(body) => {
+    await pool.query(
+        `delete from suppliers where s_name = ?`,
+        [body.s_name]
+    )
+}
+
+const addCustomers = async(body) => {
+    await pool.query(
+        `insert into customers (shop_name,shop_address,shop_phone,shop_email,shop_category) values(?,?,?,?,?)`,
+        [body.shop_name,body.shop_address,body.shop_phone,body.shop_email,body.shop_category]
+    )
+}
+
+const deleteCustomers = async(body) => {
+    await pool.query(
+        `delete from customers where shop_name = ?`,
+        [body.shop_name]
+    )
+}
+
+
 const qr = {
+    addCustomers,
+    deleteCustomers,
+    deleteSuppliers,
+    addSuppliers,
     productHistory,
     manageDueExpenses,
     manageSalesExpenses,
