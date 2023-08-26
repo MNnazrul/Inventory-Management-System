@@ -370,8 +370,22 @@ const deleteCustomers = async(body) => {
     )
 }
 
+const checkExp = async (date) => {
+    const result = await pool.query(
+        `
+        select p_name, a.p_code, b.amount, price, p_category , b.entry_date ,exp_date from products as a, product_added as b 
+        where a.p_code = b.p_code and exp_date < ? 
+        and (a.p_category = 'food' OR a.p_category = 'cosmetics')
+ 
+        `,
+        [date]
+    );
+    return result[0];
+};
+
 
 const qr = {
+    checkExp,
     addCustomers,
     deleteCustomers,
     deleteSuppliers,

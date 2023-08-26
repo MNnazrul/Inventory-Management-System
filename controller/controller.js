@@ -38,6 +38,7 @@ const addExistingProduct = async (req, res) => {
 };
 
 const showP = async (req, res) => {
+    await ser.checkExpired();
     let items;
     items = await qr.showProducts();
     const suppliers = await qr.showSuppliers();
@@ -231,6 +232,7 @@ const newPaid = async (req, res) => {
 };
 
 const damage = async (req, res) => {
+    await ser.checkExpired();
     const rows = await qr.damageProduct();
     let total_loss = 0.0;
     rows.forEach(async (row) => {
@@ -242,6 +244,7 @@ const damage = async (req, res) => {
 };
 
 const expenses = async (req, res) => {
+    await ser.checkExpired();
     const data1 = await qr.expenses();
     const mostC = await qr.mostCustomer();
     const mostP = await qr.mostProduct();

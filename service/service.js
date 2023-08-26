@@ -51,9 +51,35 @@ const configDate = async (date) => {
     const month = date.split("/")[0];
     let dt = year + "/" + month + "/" + day;
     return dt;
+} 
+
+const checkExpired = async () => {
+    let date1 = await dateTime();
+    let date = date1.split(" ")[0];
+    // console.log(date);
+    const result = await qr.checkExp(date);
+    console.log(result);
+    console.log(date1);
+    if (!result) return 0;
+    result.forEach(async (row) => {
+        let p = row.amount;
+        if (p != 0) {
+            let body = {
+                product_name: row.p_name,
+                product_price: row.price,
+                dam_amount: row.amount,
+                dam_description: "Date Expired",
+            };
+            await qr.addDamage(body, date1);
+            await qr.updateProducts(row.p_code, row.amount);
+            await qr.quanMinusByEntrDate(row.entry_date, p);
+        }
+    });
 };
+ 
 
 const ser = {
+    checkExpired,
     configDate,
     minusQuan,
     insertIntoOrders,
@@ -61,5 +87,7 @@ const ser = {
     dateTime,
     codeGenerator,
 };
+
+
 
 module.exports = ser;
