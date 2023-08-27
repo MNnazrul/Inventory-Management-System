@@ -429,6 +429,17 @@
                 </div>
                 <div>
                   <button
+                    id="openModal3"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                    type="button"
+                    data-drawer-target="drawer-create-product-default"
+                    data-drawer-show="drawer-create-product-default"
+                    aria-controls="drawer-create-product-default"
+                    data-drawer-placement="right"
+                  >
+                    Add new Category
+                  </button>
+                  <button
                     id="openModal2"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                     type="button"
@@ -671,6 +682,36 @@
                             </svg>
                             Add to Damage
                           </button>
+                          <a
+                            href="/permanetDelete?data=<%= encodeURIComponent(JSON.stringify(row)) %>"
+                          >
+                            <button
+                              type="button"
+                              id=""
+                              data-drawer-target="drawer-update-product-default"
+                              data-drawer-show="drawer-update-product-default"
+                              aria-controls="drawer-update-product-default"
+                              data-drawer-placement="right"
+                              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-red-800 hover:bg-red-900 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >
+                              <svg
+                                class="w-4 h-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
+                                ></path>
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
+                              Delete
+                            </button>
+                          </a>
 
                           <div
                             id="modal_<%= row.p_name %>"
@@ -891,12 +932,11 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <option value="food">Groceries and Food</option>
-                      <option value="electronics">Electronics</option>
-                      <option value="cosmetics">
-                        Beauty and Personal Care
+                      <% cats.forEach((roe) => { %>
+                      <option value="<%=roe.category_name%>">
+                        <%=roe.category_name%>
                       </option>
-                      <option value="books">Books and Stationery</option>
+                      <% }); %>
                     </select>
                   </div>
                 </div>
@@ -985,7 +1025,6 @@
                       id="exp_date"
                       placeholder="••••••••"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                      required=""
                     />
                   </div>
                 </div>
@@ -1004,7 +1043,7 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <% suppliers.forEach( row => { %>
+                      <% sup.forEach( row => { %>
                       <option value="<%=row.s_name%>"><%=row.s_name%></option>
                       <%})%>
                     </select>
@@ -1087,10 +1126,11 @@
                     >
                       <% items.forEach( row => { %>
                       <option value="<%=row.p_code%>"><%=row.p_name%></option>
+
                       <%})%>
                     </select>
                   </div>
-                  <div>
+                  <!-- <div>
                     <label
                       for="supplier"
                       class="ml-2 block mb-2 text-sm font-medium text-gray-900"
@@ -1103,11 +1143,9 @@
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required=""
                     >
-                      <% suppliers.forEach( row => { %>
-                      <option value="<%=row.s_name%>"><%=row.s_name%></option>
-                      <%})%>
+                      <option value="" id="my_supplier"></option>
                     </select>
-                  </div>
+                  </div> -->
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -1178,7 +1216,6 @@
                       id="exp_date"
                       placeholder="••••••••"
                       class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                      required=""
                     />
                   </div>
                 </div>
@@ -1189,6 +1226,102 @@
                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   >
                     Add Product
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- <button id="closePopup">Close</button> -->
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="modal3"
+      class="modal hidden fixed w-full h-full top-0 left-0 flex justify-center items-center bg-black bg-opacity-50"
+    >
+      <div>
+        <div class="relative w-full max-w-xl max-h-full">
+          <!-- Modal content -->
+          <div
+            class="popup-content relative bg-white rounded-lg shadow dark:bg-gray-700"
+          >
+            <button
+              type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="authentication-modal"
+              id="closeModal3"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1
+                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+              >
+                Add new Category
+              </h1>
+              <form
+                class="text-left space-y-4 md:space-y-6"
+                action="/addCategory"
+                method="post"
+              >
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      for="cat_name"
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Category Name
+                    </label>
+                    <input
+                      type="text"
+                      name="cat_name"
+                      id="cat_name"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="food"
+                      required=""
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="cat_state"
+                      class="ml-2 block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      Category Status
+                    </label>
+                    <select
+                      name="cat_state"
+                      id="cat_state"
+                      class="bg-white border shadow-md border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required=""
+                    >
+                      <option value="0">Not Expiredable</option>
+                      <option value="1">Expiredable</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <button
+                    type="submit"
+                    class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Add Category
                   </button>
                 </div>
               </form>
@@ -1222,6 +1355,18 @@
 
       closeModal2Button.addEventListener("click", () => {
         modal2.classList.add("hidden");
+      });
+
+      const openModal3Button = document.getElementById("openModal3");
+      const closeModal3Button = document.getElementById("closeModal3");
+      const modal3 = document.getElementById("modal3");
+
+      openModal3Button.addEventListener("click", () => {
+        modal3.classList.remove("hidden");
+      });
+
+      closeModal3Button.addEventListener("click", () => {
+        modal3.classList.add("hidden");
       });
     </script>
 

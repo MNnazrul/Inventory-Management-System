@@ -73,4 +73,12 @@ router.post("/addNewSupplier",cntrl.addsupplier)
 
 router.get("/removeSupplier",cntrl.removeSuppliers)
 
+router.post("/filterSupply", cntrl.filterSupply);
+
+router.post("/filterOrder", cntrl.filterOrder);
+
+router.post("/addCategory", cntrl.addIntoCategory)
+
+router.get("/permanetDelete",cntrl.deleteProduct);
+
 module.exports = router;

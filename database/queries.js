@@ -29,15 +29,17 @@ const showProducts = async (body) => {
             p.p_des,
             p.p_price,
             p.p_state,
+            pa.supplier,
             SUM(pa.amount) AS total_amount
         FROM
             products p
         JOIN
             product_added pa ON p.p_code = pa.p_code
         GROUP BY
-            p.p_name, p.p_code
+            p.p_name, p.p_code, p.p_category, p.p_des, p.p_price, p.p_state, pa.supplier
         ORDER BY
             p.p_category;
+
         `
     );
     return result[0];
@@ -70,7 +72,16 @@ const searchQuery = async (query) => {
 };
 
 const showSuppliers = async () => {
-    const result = await pool.query(`select * from suppliers`);
+    const result = await pool.query(`SELECT DISTINCT c.p_code ,c.p_name, b.supplier
+    FROM products AS c
+    JOIN (
+        SELECT a.p_code, a.supplier
+        FROM product_added AS a
+        JOIN suppliers AS b
+        ON a.supplier = b.s_name
+    ) AS b
+    ON c.p_code = b.p_code;
+    `);
     return result[0];
 };
 
@@ -247,6 +258,13 @@ const mostCustomer = async () => {
     return result[0];
 };
 
+const mostCategory = async () => {
+    const result = await pool.query(
+        `select p_category, sum(paid) as t_paid from orders as a, order_payment as b ,products as c where a.o_code = b.o_code and a.p_name = c.p_name group by p_category order by t_paid desc;`
+    );
+    return result[0];
+};
+
 const mostProduct = async () => {
     const result = await pool.query(
         `select p_name, sum(paid) as t_paid from orders as a, order_payment as b where a.o_code = b.o_code group by p_name order by t_paid desc;`
@@ -386,7 +404,72 @@ const checkExp = async (date) => {
 };
 
 
+const productHistoryByTime = async (from, to) => {
+    const result = await pool.query(
+        `
+        select p_name, a.p_code, entry_date, mf_date, exp_date, supplier, price, i_amount, (price*i_amount) as total, p_category 
+        from products as a, product_added as b 
+        where a.p_code = b.p_code and entry_date > ? and entry_date <= ?
+        order by entry_date desc
+        `,
+        [from, to]
+    );
+    return result[0];
+};
+
+const showOrderPlacedByTime = async (from, to) => {
+    const result = await pool.query(
+        `select * from order_placed where date_time > ? and date_time <= ? order by date_time desc`,
+        [from, to]
+    );
+    return result[0];
+};
+
+const find_supplier = async (p_code) => {
+    const result = await pool.query(
+        `select distinct supplier from product_added where p_code = ?`,[p_code]
+    );
+    return result[0];
+};
+
+const removeFromProducts = async (p_code) => {
+    await pool.query(`delete from products where p_code = ?`, [p_code]);
+};
+    
+    
+const removeFromProduct_added = async (p_code) => {
+await pool.query(`delete from product_added where p_code = ?`, [p_code]);
+};
+
+const showSuppliersOriginal = async (p_code) => {
+    const result = await pool.query(`select * from suppliers`);
+    return result[0];
+};
+
+const addIntoCategorys = async (cat_name, cat_state) => {
+    await pool.query(
+    `insert into category_table (category_name, state) values (?, ?);`,
+    [cat_name, cat_state]
+    );
+};
+    
+    
+const showCategory = async () => {
+    const result = await pool.query(`select * from category_table`);
+    return result[0];
+};
+    
+    
+
 const qr = {
+    addIntoCategorys,
+    showCategory,
+    showSuppliersOriginal,
+    removeFromProduct_added,
+    removeFromProducts,
+    find_supplier,
+    showOrderPlacedByTime,
+    productHistoryByTime,
     checkExp,
     addCustomers,
     deleteCustomers,
@@ -403,6 +486,7 @@ const qr = {
     productAddedByCode,
     transactions,
     addDamage,
+    mostCategory,
     mostProduct,
     mostCustomer,
     expenses,

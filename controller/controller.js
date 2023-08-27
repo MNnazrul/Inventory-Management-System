@@ -23,16 +23,20 @@ const addNewProduct = async (req, res) => {
 };
 
 const addExistingProduct = async (req, res) => {
-    const body = req.body;
+    let body = req.body;
 
     body.entry_date = await ser.dateTime();
 
     let t_price = parseFloat(body.price * body.amount).toFixed(2);
+    console.log("body.p_code " , body.product_code);
+    const tem = await qr.find_supplier(body.product_code);
+    const sup = tem[0].supplier;
+    body.supplier=sup;
+    // return res.send(tem);
 
     await qr.addedProduct(body);
     await qr.updateProductAmount(body);
     await qr.manageSupplyExpenses(t_price);
-
     console.log(body);
     res.redirect("/product");
 };
@@ -40,9 +44,12 @@ const addExistingProduct = async (req, res) => {
 const showP = async (req, res) => {
     await ser.checkExpired();
     let items;
+    const cats = await qr.showCategory();
+    // return res.send(cats);
     items = await qr.showProducts();
     const suppliers = await qr.showSuppliers();
-    return res.render("new_dashboard.ejs", { items, suppliers });
+    const sup= await qr.showSuppliersOriginal();
+    return res.render("product.ejs", { items, suppliers, sup,cats });
 };
 
 const changeState = async (req, res) => {
@@ -64,7 +71,7 @@ const pSearch = async (req, res) => {
 const showCart = async (req, res) => {
     const rows = await qr.cartProduct();
     const customers = await qr.showCustomers();
-    res.render("tem_cart.ejs", { rows, customers });
+    res.render("cart.ejs", { rows, customers });
 };
 
 const changeStateFromCart = async (req, res) => {
@@ -247,11 +254,12 @@ const expenses = async (req, res) => {
     await ser.checkExpired();
     const data1 = await qr.expenses();
     const mostC = await qr.mostCustomer();
+    const mostCat = await qr.mostCategory();
     const mostP = await qr.mostProduct();
     const trans = await qr.transactions();
 
     const data = data1[0];
-    return res.render("dashboard.ejs", { data, mostC, mostP, trans });
+    return res.render("dashboard.ejs", { data, mostC, mostCat,mostP, trans });
     return res.send(result);
     res.send(result, mostC, mostP);
 };
@@ -335,7 +343,91 @@ const removeSuppliers = async(req,res) =>{
 // body.dam_amount,
 // body.dam_description,
 // date_time,
+
+
+const filterSupply = async (req, res) => {
+    const body = req.body;
+ 
+    let to;
+    let from;
+    if (!body.from) {
+        from = "000:00:00 00:00:00";
+    } else {
+        from = body.from + " 00:00:00";
+    }
+ 
+    if (!body.to) {
+        to = "9999-99-99 99:99:99";
+    } else {
+        to = body.to + " 24:00:00";
+    }
+ 
+    const result = await qr.productHistoryByTime(from, to);
+    let total_purchase = 0;
+    result.forEach(async (row) => {
+        total_purchase = total_purchase + parseFloat(row.total);
+    });
+    total_purchase = total_purchase.toFixed(2);
+ 
+    // res.json({
+    //     total_purchase: total_purchase,
+    //     result: result,
+    // });
+ 
+    // // return res.send(result);
+    return res.render("supply_history.ejs", { result, total_purchase });
+};
+
+
+const filterOrder = async (req, res) => {
+    const body = req.body;
+    let to;
+    let from;
+    if (!body.from) {
+        from = "0000:00:00 00:00:00";
+    } else {
+        from = body.from + " 00:00:00";
+    }
+ 
+    if (!body.to) {
+        to = "9999-99-99 99:99:99";
+    } else {
+        to = body.to + " 24:00:00";
+    }
+ 
+    const rows = await qr.showOrderPlacedByTime(from, to);
+    // return res.json({
+    //     success: 1,
+    //     result: rows,
+    // });
+    res.render("orders.ejs", { rows });
+};
+
+const deleteProduct = async (req, res) => {
+    const receivedSerializedData = req.query.data;
+    const body = JSON.parse(receivedSerializedData);
+    // return res.send(body);
+    await qr.removeFromProduct_added(body.p_code);
+    await qr.removeFromProducts(body.p_code);
+
+    res.redirect("/product")
+};
+
+const addIntoCategory = async (req,res) => {
+    let body = req.body;
+    let cat_name = body.cat_name;
+    let cat_state = body.cat_state;
+    // res.send(body);
+    await qr.addIntoCategorys(cat_name, cat_state);
+    res.redirect("/product");
+}
+
+
 const cntrl = {
+    addIntoCategory,
+    deleteProduct,
+    filterOrder,
+    filterSupply,
     removeSuppliers,
     addsupplier,
     suppliers,
