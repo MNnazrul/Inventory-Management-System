@@ -22,20 +22,22 @@ const insertIntoProduct = async (body) => {
 const showProducts = async (body) => {
     const result = await pool.query(
         `
-            SELECT
-                p.p_name,
-                p.p_code,
-                p.p_category,
-                p.p_des,
-                p.p_price,
-                p.p_state,
-                SUM(pa.amount) AS total_amount
-            FROM
-                products p
-            JOIN
-                product_added pa ON p.p_code = pa.p_code
-            GROUP BY
-                p.p_name, p.p_code;
+        SELECT
+            p.p_name,
+            p.p_code,
+            p.p_category,
+            p.p_des,
+            p.p_price,
+            p.p_state,
+            SUM(pa.amount) AS total_amount
+        FROM
+            products p
+        JOIN
+            product_added pa ON p.p_code = pa.p_code
+        GROUP BY
+            p.p_name, p.p_code
+        ORDER BY
+            p.p_category;
         `
     );
     return result[0];
@@ -258,7 +260,7 @@ const transactions = async () => {
             SELECT 'supplied' AS source_table, supplier, entry_date AS date_time, (price * i_amount) AS total_amount
             FROM product_added
             UNION
-            SELECT 'sold' AS source_table, customer, date_time, paid  
+            SELECT 'sold' AS source_table, customer, payment_date, paid  
             FROM order_placed as a,order_payment as b WHERE a.o_code = b.o_code and paid != 0
             ORDER BY date_time DESC
         `
