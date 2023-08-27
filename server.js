@@ -31,49 +31,49 @@ app.use(
     })
 );
 
-// const redirectLogin = (req, res, next) => {
-//     if (!req.session.userId && req.path != "/login") {
-//         res.redirect("/login");
-//     } else next();
-// };
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId && req.path != "/login") {
+        res.redirect("/login");
+    } else next();
+};
 
-// const redirectLogout = (req, res, next) => {
-//     if (req.session.userId && req.path == "/login") {
-//         res.redirect("/dashboard");
-//     } else next();
-// };
+const redirectLogout = (req, res, next) => {
+    if (req.session.userId && req.path == "/login") {
+        res.redirect("/dashboard");
+    } else next();
+};
 
-// app.get("/login", redirectLogout, (req, res) => {
-//     res.render("login.ejs");
-// });
+app.get("/login", redirectLogout, (req, res) => {
+    res.render("login.ejs");
+});
 
-// app.post("/login", redirectLogout, async (req, res) => {
-//     const body = req.body;
-//     let pass = body.password;
-//     let result = await qr.selectAdmin(body.email);
-//     if (!result) {
-//         res.redirect("/login");
-//     } else {
-//         if (await bcrypt.compare(pass, result[0].password)) {
-//             req.session.userId = result[0].user_id;
-//             return res.redirect("/dashboard");
-//         } else {
-//             res.redirect("/login");
-//         }
-//     }
-// });
+app.post("/login", redirectLogout, async (req, res) => {
+    const body = req.body;
+    let pass = body.password;
+    let result = await qr.selectAdmin(body.email);
+    if (!result) {
+        res.redirect("/login");
+    } else {
+        if (await bcrypt.compare(pass, result[0].password)) {
+            req.session.userId = result[0].user_id;
+            return res.redirect("/dashboard");
+        } else {
+            res.redirect("/login");
+        }
+    }
+});
 
-// app.get("/logout", redirectLogin, async (req, res) => {
-//     req.session.destroy((err) => {
-//         if (err) {
-//             return res.redirect("/dashboard");
-//         }
-//         res.clearCookie(process.env.SESS_NAME);
-//         res.redirect("/login");
-//     });
-// });
+app.get("/logout", redirectLogin, async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.redirect("/dashboard");
+        }
+        res.clearCookie(process.env.SESS_NAME);
+        res.redirect("/login");
+    });
+});
 
-app.use("/", router);
+app.use("/",redirectLogin, router);
 
 app.listen(port, () => {
     console.log(`running at port ${port}`);
